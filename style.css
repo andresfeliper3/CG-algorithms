@@ -1,0 +1,69 @@
+body {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.header_description {
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+.options{ 
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    margin-top:5%;
+}
+.options > * {
+    width:15%;
+    display:flex;
+    flex-direction: column;
+}
+
+select {
+    width: 50%;
+    align-self: center;
+}
+.options__canvas-dimensions input {
+    align-self: center;
+    width: 50%;
+ }
+
+#options__graph-button{
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    background-color:aquamarine;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    cursor:pointer;
+}
+#options__graph-button:active {
+    background-color: cadetblue;
+}
+
+.canvas {
+    margin-top:5%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+#canvas {
+    border: 1px solid black;
+    
+}
+
+#canvas__title {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
