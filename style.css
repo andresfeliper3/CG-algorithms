@@ -8,13 +8,19 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width:70%;
 }
 
-h1 {
+h1, h2 {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .header_description {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    text-align: justify;
+}
+
+.options__description {
     font-family:Georgia, 'Times New Roman', Times, serif
 }
 
@@ -24,14 +30,16 @@ h1 {
     align-items: center;
     justify-content: space-evenly;
 
-    margin-top:5%;
+    margin-top:3%;
 }
 .options > * {
     width:15%;
     display:flex;
     flex-direction: column;
 }
-
+.options__origin {
+    width:17%;
+}
 select {
     width: 50%;
     align-self: center;
@@ -42,13 +50,18 @@ select {
  }
 
 #options__graph-button{
+    /*Text inside button*/
+    white-space: normal;
+    word-wrap: break-word;
+
     width: 50%;
-    height: 30px;
+    height: auto;
     border-radius: 10px;
     background-color:aquamarine;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     cursor:pointer;
 }
+
 #options__graph-button:active {
     background-color: cadetblue;
 }

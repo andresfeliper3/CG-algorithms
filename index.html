@@ -10,7 +10,17 @@
 <body>
     <header>
         <h1>Rasterization Algorithms</h1>
-        <p class="header_description">Computer graphics algorithms used for rasterization using JavaScript and Canvas. No libraries were used in this code.</p>
+        <p class="header_description">Computer graphics algorithms used for rasterization using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
+            Imagine each box in the canvas is a pixel and can be understood as a discrete coordinate. The algorithms graph by painting whole pixels. This means that perfect figures may not be drawn. 
+        </p>
+        <p class="header_description">
+            You can select the origin position of the system of coordinates. In <b>Upper-left</b> the coordinates increase to the right and to the bottom. In <b>Centered</b> the coordinates
+            increase to the right and to the top.
+        </p>
+        <p class="header_description">
+            You can choose the type of graph you would like to paint as well as the algorithm to use. Keep in mind that some algorithms may be better than others. You can also choose the amount of boxes 
+            or squares that a row can have in the canvas. A higher number of boxes means can work for better figures and a lower number of boxes can be used to see in detail. For a good performance
+            try to use numbers in the recomended range (10-100).
     </header>
     <section class="options">
         <div class="options__origin">   
@@ -26,6 +36,7 @@
             <p class="options__description">Select what you would like to graph</p>
             <select name="options__graph-type" id="options__graph-type">
                 <option value="Line">Line</option>
+                <option value="Circle">Circle</option>
             </select>
         </div>
         <div class="options__algorithm">
@@ -37,8 +48,8 @@
         </div>
         <div class="options__canvas-dimensions">
             <h2 class="options__title">Squares</h2>
-            <p class="options__description">Select the amounts of squares on a side</p>
-            <input type="text" name="options__squares" id="options__squares"/>
+            <p class="options__description">Select the amounts of boxes in a row</p>
+            <input type="text" name="options__boxes" id="options__boxes" placeholder="10-100" value="20"/>
     
         </div>
         <div class="options__button"> 
@@ -48,8 +59,8 @@
     <section class="canvas">
         <h2 id="canvas__title">Rasterization</h2>
         <canvas id="canvas" width="500" height="500">
-            current stock price: $3.15 + 0.15
-          </canvas>
+           
+        </canvas>
           
     </section>
     <script src="./app.js"></script>
