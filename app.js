@@ -1,7 +1,63 @@
 //CLASSES
 class Line {
-    constructor() {
+    constructor(p1, p2, boxes, origin) {
+        this.color = "black";
+        this.boxes = boxes;
+        this.origin = origin;
+        this.checkPoints(p1, p2, origin);
+    }
+    //Check the points
+    checkPoints(p1, p2) {
+        //Check the coordinates in the correct range of numbers
+        if (p1.x > this.boxes - 1 || p1.y > this.boxes - 1 || p2.x > this.boxes - 1 || p2.y > this.boxes - 1) {
+            alert("Invalid coordinates");
+            throw Error("Invalid coordinates");
+        }
+        if (this.origin == "Centered") {
+            console.log(this.origin)
+            if (Math.abs(p1.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p1.y) > Math.ceil((this.boxes / 2) - 1) ||
+                Math.abs(p2.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p2.y) > Math.ceil((this.boxes / 2)) - 1) {
+                alert("Invalid coordinates");
+                throw Error("Invalid coordinates");
+            }
+        }
+        //Make p1 always be the point to the left and p2 to the right
+        if (p2.x < p1.x) {
+            console.log("change")
+            this.p1 = p2;
+            this.p2 = p1;
+        }
+        else {
+            this.p1 = p1;
+            this.p2 = p2;
+        }
+    }
 
+    basicAlgorithm(box, origin, origin_pos) {
+        const slope = (this.p2.y - this.p1.y) / (this.p2.x - this.p1.x);
+        let x = this.p1.x;
+        let y = this.p1.y;
+        if (origin == "Upper-left") {
+            do {
+                drawPoint(box + x * box, box + Math.round(y) * box, this.color, box);
+                y = y + slope;
+                x++;
+            } while (x <= this.p2.x);
+        }
+        else if (origin == "Centered") {
+            //Calculate origin position in centered
+            const origin_pos = {
+                x: box * Math.ceil(this.boxes / 2),
+                y: box * Math.ceil(this.boxes / 2)
+            };
+            do {
+                //Transform from cartesian to canvas coordinates
+                let point = toDrawable({ x: x, y: Math.round(y) }, origin_pos, box);
+                drawPoint(point.x, point.y, this.color, box);
+                y = y + slope;
+                x++;
+            } while (x <= this.p2.x);
+        }
     }
 }
 
@@ -10,7 +66,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 //Button and graph
-const btn = document.getElementById('options__graph-button');
+const btn = document.getElementById('graph-button');
 const originPosition = document.getElementById('options__origin-position');
 const graphType = document.getElementById('options__graph-type');
 const algorithm = document.getElementById('options__algorithm');
@@ -21,6 +77,8 @@ const details_p = document.getElementById('details-box__description');
 /* Canvas dimensions */
 const bw = 520;
 const bh = 520;
+const box = bw / (boxes.value + 1);
+
 /* drawBoard: width, height, boxes in a row
     This functions draws the board with boxes
 */
@@ -97,6 +155,10 @@ function placeDetails(graphType) {
         y1.setAttribute('placeholder', "y1");
         x2.setAttribute('placeholder', "x2");
         y2.setAttribute('placeholder', "y2");
+        x1.setAttribute('id', 'x1');
+        y1.setAttribute('id', 'y1');
+        x2.setAttribute('id', 'x2');
+        y2.setAttribute('id', 'y2');
         details.appendChild(x1);
         details.appendChild(y1);
         details.appendChild(x2);
@@ -110,15 +172,20 @@ function placeDetails(graphType) {
         h.setAttribute('placeholder', "h");
         k.setAttribute('placeholder', "k");
         r.setAttribute('placeholder', "r");
+        h.setAttribute('id', 'h');
+        k.setAttribute('id', 'k');
+        r.setAttribute('id', 'r');
         details.appendChild(h);
         details.appendChild(k);
         details.appendChild(r);
     }
 }
 function setup() {
+    let box = bw / (parseInt(boxes.value) + 1);
     placeAlgorithms(graphType.value);
     placeDetails(graphType.value);
-    graph(originPosition.value, graphType.value, algorithm.value, parseInt(boxes.value));
+    drawBoard(bw, bh, box);
+    graphOrigin(originPosition.value, parseInt(boxes.value));
 }
 setup();
 
@@ -138,20 +205,21 @@ btn.addEventListener('click', () => {
  * This functions graphs according to the options
  */
 function graph(origin, graphType, algorithm, boxes) {
+    let box = bw / (boxes + 1);
     ctx.clearRect(0, 0, bw, bh);
-    drawBoard(bw, bh, bw / (boxes + 1))
-    graphOrigin(origin, boxes + 1);
-
+    drawBoard(bw, bh, box);
+    graphOrigin(origin, boxes);
+    useAlgorithm(origin, graphType, algorithm, box, boxes);
 }
 
 /** This functions paints the origin in the drawboard */
 function graphOrigin(origin, boxes) {
-    let box = bw / boxes; //width of a box
+    let box = bw / (boxes + 1); //width of a box
     if (origin == "Upper-left") {
         drawPoint(box, box, "red", box);
     }
     else if (origin == "Centered") {
-        drawPoint(box * (boxes / 2), box * (boxes / 2), "red", box);
+        drawPoint(box * Math.ceil(boxes / 2), box * Math.ceil(boxes / 2), "red", box);
     }
 }
 
@@ -159,8 +227,40 @@ function graphOrigin(origin, boxes) {
  * This functions paitns the whole box that starts at (x,y) with color indicated in style and height and width defined by box.
  */
 function drawPoint(x, y, style, box) {
-    console.log(x, y, style, box)
     ctx.fillStyle = style;
     ctx.fillRect(x, y, box, box);
 }
 
+/**
+ * useAlgorithm
+ * @param {*} graphType 
+ * @param {*} algorithm 
+ * @param {*} box 
+ * This function graphs the figure according to the graph type, the algorithm and the length of a box
+ */
+function useAlgorithm(origin, graphType, algorithm, box, boxes) {
+    if (graphType == "Line") {
+        if (algorithm == "Basic") {
+            const x1 = parseInt(document.getElementById('x1').value);
+            const y1 = parseInt(document.getElementById('y1').value);
+            const x2 = parseInt(document.getElementById('x2').value);
+            const y2 = parseInt(document.getElementById('y2').value);
+            const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, boxes, origin);
+            line.basicAlgorithm(box, origin);
+        }
+    }
+}
+
+/**
+ * toDrawable: cartesian coordinates in JSON, origin in JSON-> drawable coordinates
+ * @param {JSON} p 
+ * @param {JSON} origin
+ * @param {number} box
+ * This function converts from cartesian coordinates to canvas coordinates, in order to paint
+ */
+function toDrawable(p, origin, box) {
+    return {
+        x: p.x * box + origin.x,
+        y: -p.y * box + origin.y
+    }
+}

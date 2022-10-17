@@ -45,25 +45,30 @@ select {
     width: 50%;
     align-self: center;
 }
+select#options__algorithm{
+    width:90%;
+}
 .options__canvas-dimensions input {
     align-self: center;
     width: 50%;
  }
 
-#options__graph-button{
+.graph-section__button{
+    margin-top:5%;
+ }
+#graph-button{
     /*Text inside button*/
     white-space: normal;
     word-wrap: break-word;
-
-    width: 50%;
-    height: auto;
+    width:100px;
+    height: 30px;
     border-radius: 10px;
     background-color:aquamarine;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     cursor:pointer;
 }
 
-#options__graph-button:active {
+#graph-button:active {
     background-color: cadetblue;
 }
 

@@ -25,7 +25,7 @@
     <section class="options">
         <div class="options__origin">   
             <h2 class="options__title">Origin position</h2>
-            <p class="options__description">Select were should the (0,0) coordinates be positioned</p>
+            <p class="options__description">Select were should the <span style="color:red;">(0,0)</span> coordinates be positioned</p>
             <select name="options__origin-position" id="options__origin-position">
                 <option value="Upper-left">Upper-left</option>
                 <option value="Centered">Centered</option>
@@ -34,7 +34,7 @@
         <div class="options__graph">
             <h2 class="options__title">Type of graph</h2>
             <p class="options__description">Select what you would like to graph</p>
-            <select name="options__graph-type" id="options__graph-type">
+            <select name="options__graph-type" id="options__graph-type">    
                 <option value="Line">Line</option>
                 <option value="Circle">Circle</option>
             </select>
@@ -53,16 +53,18 @@
             <input type="text" name="options__boxes" id="options__boxes" placeholder="10-100" value="20"/>
     
         </div>
-        <div class="options__button"> 
-            <button id="options__graph-button">Graph</button>
-        </div>
+        
     </section>
     <section class="graph-section">
         <div class="details-box">
             <h1 class="details__title">Details</h1>
             <p id="details-box__description"></p>
             <div id="details"></div>
+            <div class="graph-section__button"> 
+                <button id="graph-button">Graph</button>
+            </div>
         </div>
+        
         <div class="canvas">
             <h2 id="canvas__title">Rasterization</h2>
             <canvas id="canvas" width="520" height="520">
