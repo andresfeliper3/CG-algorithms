@@ -65,14 +65,14 @@ class Line {
         }
     }
     digitalDifferentialAnalyzer(box, origin) {
+        let dx = Math.abs(this.p2.x - this.p1.x);
+        let dy = Math.abs(this.p2.y - this.p1.y);
+        let steps = dx > dy ? dx : dy;
+        let xincr = dx / steps;
+        let yincr = dy / steps;
+        let x = this.p1.x;
+        let y = this.p1.y;
         if (origin == "Upper-left") {
-            let dx = Math.abs(this.p2.x - this.p1.x);
-            let dy = Math.abs(this.p2.y - this.p1.y);
-            let steps = dx > dy ? dx : dy;
-            let xincr = dx / steps;
-            let yincr = dy / steps;
-            let x = this.p1.x;
-            let y = this.p1.y;
             drawPoint(box + Math.round(x) * box, box + Math.round(y) * box, this.color, box);
             for (let k = 1; k <= steps; k++) {
                 x = x + xincr;
@@ -81,7 +81,19 @@ class Line {
             }
         }
         else if (origin == "Centered") {
-
+            //Calculate origin position in centered
+            const origin_pos = {
+                x: box * Math.ceil(this.boxes / 2),
+                y: box * Math.ceil(this.boxes / 2)
+            };
+            let point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
+            drawPoint(point.x, point.y, this.color, box);
+            for (let k = 1; k <= steps; k++) {
+                x = x + xincr;
+                y = y + yincr;
+                point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
+                drawPoint(point.x, point.y, this.color, box);
+            }
         }
     }
 }
