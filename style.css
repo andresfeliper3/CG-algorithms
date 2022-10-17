@@ -46,7 +46,7 @@ select {
     align-self: center;
 }
 select#options__algorithm{
-    width:90%;
+    width:95%;
 }
 .options__canvas-dimensions input {
     align-self: center;

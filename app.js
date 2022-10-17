@@ -14,9 +14,14 @@ class Line {
             throw Error("Invalid coordinates");
         }
         if (this.origin == "Centered") {
-            console.log(this.origin)
             if (Math.abs(p1.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p1.y) > Math.ceil((this.boxes / 2) - 1) ||
                 Math.abs(p2.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p2.y) > Math.ceil((this.boxes / 2)) - 1) {
+                alert("Invalid coordinates");
+                throw Error("Invalid coordinates");
+            }
+        }
+        else if (this.origin == "Upper-left") {
+            if (p1.x < 0 || p1.y < 0 || p2.x < 0 || p2.y < 0) {
                 alert("Invalid coordinates");
                 throw Error("Invalid coordinates");
             }
@@ -33,7 +38,7 @@ class Line {
         }
     }
 
-    basicAlgorithm(box, origin, origin_pos) {
+    basicAlgorithm(box, origin) {
         const slope = (this.p2.y - this.p1.y) / (this.p2.x - this.p1.x);
         let x = this.p1.x;
         let y = this.p1.y;
@@ -57,6 +62,26 @@ class Line {
                 y = y + slope;
                 x++;
             } while (x <= this.p2.x);
+        }
+    }
+    digitalDifferentialAnalyzer(box, origin) {
+        if (origin == "Upper-left") {
+            let dx = Math.abs(this.p2.x - this.p1.x);
+            let dy = Math.abs(this.p2.y - this.p1.y);
+            let steps = dx > dy ? dx : dy;
+            let xincr = dx / steps;
+            let yincr = dy / steps;
+            let x = this.p1.x;
+            let y = this.p1.y;
+            drawPoint(box + Math.round(x) * box, box + Math.round(y) * box, this.color, box);
+            for (let k = 1; k <= steps; k++) {
+                x = x + xincr;
+                y = y + yincr;
+                drawPoint(box + Math.round(x) * box, box + Math.round(y) * box, this.color, box);
+            }
+        }
+        else if (origin == "Centered") {
+
         }
     }
 }
@@ -120,16 +145,16 @@ function placeAlgorithms(graphType) {
     //Show algorithms according to graph type
     if (graphType == "Line") {
         let basic = new Option('Basic Algorithm', 'Basic');
-        let midPoint = new Option('Mid-Point Line Generation Algorithm', 'Midpoint');
+        let dda = new Option('Digital differential analyzer', 'dda');
         let bresenham = new Option('Bresenham\'s algorithm', 'bresenham');
         algorithm.add(basic);
-        algorithm.add(midPoint);
+        algorithm.add(dda);
         algorithm.add(bresenham);
     }
     else if (graphType == "Circle") {
-        let midPoint = new Option('Mid-Point Line Generation Algorithm', 'Midpoint');
+        let dda = new Option('Digital differential analyzer', 'dda');
         let bresenham = new Option('Bresenham\'s algorithm', 'bresenham');
-        algorithm.add(midPoint);
+        algorithm.add(dda);
         algorithm.add(bresenham);
     }
 }
@@ -240,13 +265,16 @@ function drawPoint(x, y, style, box) {
  */
 function useAlgorithm(origin, graphType, algorithm, box, boxes) {
     if (graphType == "Line") {
+        const x1 = parseInt(document.getElementById('x1').value);
+        const y1 = parseInt(document.getElementById('y1').value);
+        const x2 = parseInt(document.getElementById('x2').value);
+        const y2 = parseInt(document.getElementById('y2').value);
+        const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, boxes, origin);
         if (algorithm == "Basic") {
-            const x1 = parseInt(document.getElementById('x1').value);
-            const y1 = parseInt(document.getElementById('y1').value);
-            const x2 = parseInt(document.getElementById('x2').value);
-            const y2 = parseInt(document.getElementById('y2').value);
-            const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, boxes, origin);
             line.basicAlgorithm(box, origin);
+        }
+        else if (algorithm == "dda") {
+            line.digitalDifferentialAnalyzer(box, origin);
         }
     }
 }
