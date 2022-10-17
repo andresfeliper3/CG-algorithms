@@ -64,6 +64,7 @@ class Line {
             } while (x <= this.p2.x);
         }
     }
+
     digitalDifferentialAnalyzer(box, origin) {
         let dx = Math.abs(this.p2.x - this.p1.x);
         let dy = Math.abs(this.p2.y - this.p1.y);
@@ -93,6 +94,30 @@ class Line {
                 y = y + yincr;
                 point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
                 drawPoint(point.x, point.y, this.color, box);
+            }
+        }
+    }
+
+    bresenhamsAlgorithm(box, origin) {
+        let dx = Math.abs(this.p2.x - this.p1.x);
+        let dy = Math.abs(this.p2.y - this.p1.y);
+        let x = this.p1.x;
+        let y = this.p1.y;
+        let pk = 2 * dy - dx;
+        let counter = 0;
+        if (origin == "Upper-left") {
+            drawPoint(box + x * box, box + y * box, this.color, box);
+            while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1)) {
+                if (pk < 0) {
+                    pk = pk + 2 * dy;
+                }
+                else {
+                    pk = pk + 2 * dy - 2 * dx;
+                    y++;
+                }
+                x++;
+                counter++;
+                drawPoint(box + x * box, box + y * box, this.color, box);
             }
         }
     }
@@ -287,6 +312,9 @@ function useAlgorithm(origin, graphType, algorithm, box, boxes) {
         }
         else if (algorithm == "dda") {
             line.digitalDifferentialAnalyzer(box, origin);
+        }
+        else if (algorithm == "bresenham") {
+            line.bresenhamsAlgorithm(box, origin);
         }
     }
 }
