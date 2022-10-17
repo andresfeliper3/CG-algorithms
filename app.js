@@ -106,8 +106,7 @@ class Line {
         let pk = 2 * dy - dx;
         let counter = 0;
         if (origin == "Upper-left") {
-            drawPoint(box + x * box, box + y * box, this.color, box);
-            while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1)) {
+            do {
                 if (pk < 0) {
                     pk = pk + 2 * dy;
                 }
@@ -118,7 +117,30 @@ class Line {
                 x++;
                 counter++;
                 drawPoint(box + x * box, box + y * box, this.color, box);
-            }
+            } while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1));
+        }
+        else if (origin == "Centered") {
+            const origin_pos = {
+                x: box * Math.ceil(this.boxes / 2),
+                y: box * Math.ceil(this.boxes / 2)
+            };
+            let point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
+            drawPoint(point.x, point.y, this.color, box);
+            do {
+                if (pk < 0) {
+                    pk = pk + 2 * dy;
+                }
+                else {
+                    pk = pk + 2 * dy - 2 * dx;
+                    y++;
+                }
+                x++;
+                counter++;
+                console.log(x, y);
+                point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
+                console.log(point)
+                drawPoint(point.x, point.y, this.color, box);
+            } while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1));
         }
     }
 }
