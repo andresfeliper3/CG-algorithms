@@ -39,6 +39,7 @@
                 <option value="Circle">Circle</option>
             </select>
         </div>
+    
         <div class="options__algorithm">
             <h2 class="options__title">Algorithm</h2>
             <p class="options__description">Select the algorithm you want to use</p>
@@ -56,13 +57,21 @@
             <button id="options__graph-button">Graph</button>
         </div>
     </section>
-    <section class="canvas">
-        <h2 id="canvas__title">Rasterization</h2>
-        <canvas id="canvas" width="500" height="500">
-           
-        </canvas>
-          
+    <section class="graph-section">
+        <div class="details-box">
+            <h1 class="details__title">Details</h1>
+            <p id="details-box__description"></p>
+            <div id="details"></div>
+        </div>
+        <div class="canvas">
+            <h2 id="canvas__title">Rasterization</h2>
+            <canvas id="canvas" width="520" height="520">
+               
+            </canvas>
+              
+        </d>
     </section>
+    
     <script src="./app.js"></script>
 </body>
 </html>

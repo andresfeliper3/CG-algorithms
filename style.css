@@ -20,6 +20,7 @@ h1, h2 {
     text-align: justify;
 }
 
+/* Options */
 .options__description {
     font-family:Georgia, 'Times New Roman', Times, serif
 }
@@ -29,7 +30,6 @@ h1, h2 {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-
     margin-top:3%;
 }
 .options > * {
@@ -40,6 +40,7 @@ h1, h2 {
 .options__origin {
     width:17%;
 }
+
 select {
     width: 50%;
     align-self: center;
@@ -66,15 +67,50 @@ select {
     background-color: cadetblue;
 }
 
-.canvas {
+/* Graph section */
+.graph-section {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width:70%;
+}
+
+.graph-section > * {
     margin-top:5%;
+}
+
+.details-box {
+    width:30%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#details {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#details-box__description {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    text-align: justify;
+}
+
+.details-box input {
+    width: 10%;
+    margin-top:10%;
+}
+
+.canvas {   
     display:flex;
     flex-direction: column;
     align-items: center;
 }
 #canvas {
     border: 1px solid black;
-    
 }
 
 #canvas__title {
