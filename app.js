@@ -4,6 +4,7 @@
 //CLASSES
 import { Line } from "./Line.js";
 import { Board} from "./Board.js";
+import { Circle } from "./Circle.js";
 
 /* CANVAS */
 const canvas = document.getElementById('canvas');
@@ -113,7 +114,7 @@ graphType.addEventListener('change', () => {
 btn.addEventListener('click', () => {
     graph(originPosition.value, graphType.value, algorithm.value, parseInt(boxes.value));
 });
-
+2
 //YOU MUST CHECK THESE VALUES
 
 /** Graph
@@ -135,10 +136,10 @@ function graph(origin, graphType, algorithm, boxes) {
  */
 function useAlgorithm(graphType, algorithm, board) {
     if (graphType == "Line") {
-        const x1 = parseInt(document.getElementById('x1').value);
-        const y1 = parseInt(document.getElementById('y1').value);
-        const x2 = parseInt(document.getElementById('x2').value);
-        const y2 = parseInt(document.getElementById('y2').value);
+        const x1 = parseInt(document.getElementById('x1').value) || 0;
+        const y1 = parseInt(document.getElementById('y1').value) || 0;
+        const x2 = parseInt(document.getElementById('x2').value) || 0;
+        const y2 = parseInt(document.getElementById('y2').value) || 0;
         const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, board);
         if (algorithm == "Basic") {
             line.basicAlgorithm();
@@ -148,6 +149,15 @@ function useAlgorithm(graphType, algorithm, board) {
         }
         else if (algorithm == "bresenham") {
             line.bresenhamsAlgorithm();
+        }
+    }
+    else if(graphType == "Circle"){
+        const h = parseInt(document.getElementById('h').value) || 0;
+        const k = parseInt(document.getElementById('k').value) || 0;
+        const r = parseInt(document.getElementById('r').value) || 0;
+        const circle = new Circle({h: h, k: k}, r, board);
+        if(algorithm == "bresenham") {
+            circle.bresenhamsAlgorithm();
         }
     }
 }

@@ -29,7 +29,7 @@ export class Line {
         }
         else if (this.origin == "Upper-left") {
             if (p1.x < 0 || p1.y < 0 || p2.x < 0 || p2.y < 0) {
-                alert("Invalid coordinates");
+                alert("Invalid coordinates");Graph
                 throw Error("Invalid coordinates");
             }
         }
@@ -103,7 +103,7 @@ export class Line {
         let y = this.p1.y;
         let pk = 2 * dy - dx;
         let counter = 0;
-        if (this.origin == "Upper-left") {
+        if (this.origin == "Upper-lGrapheft") {
             this.board.drawPoint(this.box + x * this.box, this.box + y * this.box, this.color);
             do {
                 if (pk < 0) {
