@@ -1,9 +1,16 @@
 export class Line {
-    constructor(p1, p2, boxes, origin) {
+    constructor(p1, p2, board) {
         this.color = "black";
-        this.boxes = boxes;
-        this.origin = origin;
-        this.checkPoints(p1, p2, origin);
+        this.board = board;
+        this.boxes = this.board.boxes;
+        this.origin = this.board.origin;
+        this.box = this.board.box;
+        //Calculate origin position in centered
+        this.origin_pos = {
+            x: this.box * Math.ceil(this.boxes / 2),
+            y: this.box * Math.ceil(this.boxes / 2)
+        };
+        this.checkPoints(p1, p2);
     }
     //Check the points
     checkPoints(p1, p2) {
@@ -15,7 +22,8 @@ export class Line {
         if (this.origin == "Centered") {
             if (Math.abs(p1.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p1.y) > Math.ceil((this.boxes / 2) - 1) ||
                 Math.abs(p2.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p2.y) > Math.ceil((this.boxes / 2)) - 1) {
-                alert("Invalid coordinates");
+                console.log(p1,p2);
+                    alert("Invalid coordinates");
                 throw Error("Invalid coordinates");
             }
         }
@@ -27,7 +35,6 @@ export class Line {
         }
         //Make p1 always be the point to the left and p2 to the right
         if (p2.x < p1.x) {
-            console.log("change")
             this.p1 = p2;
             this.p2 = p1;
         }
@@ -37,34 +44,29 @@ export class Line {
         }
     }
 
-    basicAlgorithm(box, origin) {
+    basicAlgorithm() {
         const slope = (this.p2.y - this.p1.y) / (this.p2.x - this.p1.x);
         let x = this.p1.x;
         let y = this.p1.y;
-        if (origin == "Upper-left") {
+        if (this.origin == "Upper-left") {
             do {
-                drawPoint(box + x * box, box + Math.round(y) * box, this.color, box);
+                this.board.drawPoint(this.box + x * this.box, this.box + Math.round(y) * this.box, this.color);
                 y = y + slope;
                 x++;
             } while (x <= this.p2.x);
         }
-        else if (origin == "Centered") {
-            //Calculate origin position in centered
-            const origin_pos = {
-                x: box * Math.ceil(this.boxes / 2),
-                y: box * Math.ceil(this.boxes / 2)
-            };
+        else if (this.origin == "Centered") {
             do {
                 //Transform from cartesian to canvas coordinates
-                let point = toDrawable({ x: x, y: Math.round(y) }, origin_pos, box);
-                drawPoint(point.x, point.y, this.color, box);
+                let point = this.board.toDrawable({ x: x, y: Math.round(y) }, this.origin_pos);
+                this.board.drawPoint(point.x, point.y, this.color);
                 y = y + slope;
                 x++;
             } while (x <= this.p2.x);
         }
     }
 
-    digitalDifferentialAnalyzer(box, origin) {
+    digitalDifferentialAnalyzer() {
         let dx = Math.abs(this.p2.x - this.p1.x);
         let dy = Math.abs(this.p2.y - this.p1.y);
         let steps = dx > dy ? dx : dy;
@@ -72,40 +74,37 @@ export class Line {
         let yincr = dy / steps;
         let x = this.p1.x;
         let y = this.p1.y;
-        if (origin == "Upper-left") {
-            drawPoint(box + Math.round(x) * box, box + Math.round(y) * box, this.color, box);
+        if (this.origin == "Upper-left") {
+            this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
             for (let k = 1; k <= steps; k++) {
                 x = x + xincr;
                 y = y + yincr;
-                drawPoint(box + Math.round(x) * box, box + Math.round(y) * box, this.color, box);
+                this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
             }
         }
-        else if (origin == "Centered") {
+        else if (this.origin == "Centered") {
             //Calculate origin position in centered
-            const origin_pos = {
-                x: box * Math.ceil(this.boxes / 2),
-                y: box * Math.ceil(this.boxes / 2)
-            };
-            let point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
-            drawPoint(point.x, point.y, this.color, box);
+           
+            let point = this.board.toDrawable({ x: Math.round(x), y: Math.round(y) }, this.origin_pos);
+            this.board.drawPoint(point.x, point.y, this.color);
             for (let k = 1; k <= steps; k++) {
                 x = x + xincr;
                 y = y + yincr;
-                point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
-                drawPoint(point.x, point.y, this.color, box);
+                point = this.board.toDrawable({ x: Math.round(x), y: Math.round(y) }, this.origin_pos);
+                this.board.drawPoint(point.x, point.y, this.color);
             }
         }
     }
 
-    bresenhamsAlgorithm(box, origin) {
+    bresenhamsAlgorithm() {
         let dx = Math.abs(this.p2.x - this.p1.x);
         let dy = Math.abs(this.p2.y - this.p1.y);
         let x = this.p1.x;
         let y = this.p1.y;
         let pk = 2 * dy - dx;
         let counter = 0;
-        if (origin == "Upper-left") {
-            drawPoint(box + x * box, box + y * box, this.color, box)
+        if (this.origin == "Upper-left") {
+            this.board.drawPoint(this.box + x * this.box, this.box + y * this.box, this.color);
             do {
                 if (pk < 0) {
                     pk = pk + 2 * dy;
@@ -116,16 +115,12 @@ export class Line {
                 }
                 x++;
                 counter++;
-                drawPoint(box + x * box, box + y * box, this.color, box);
+                this.board.drawPoint(this.box + x * this.box, this.box + y * this.box, this.color);
             } while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1));
         }
-        else if (origin == "Centered") {
-            const origin_pos = {
-                x: box * Math.ceil(this.boxes / 2),
-                y: box * Math.ceil(this.boxes / 2)
-            };
-            let point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
-            drawPoint(point.x, point.y, this.color, box);
+        else if (this.origin == "Centered") {
+            let point = this.board.toDrawable({ x: Math.round(x), y: Math.round(y) }, this.origin_pos);
+            this.board.drawPoint(point.x, point.y, this.color);
             do {
                 if (pk < 0) {
                     pk = pk + 2 * dy;
@@ -136,8 +131,8 @@ export class Line {
                 }
                 x++;
                 counter++;
-                point = toDrawable({ x: Math.round(x), y: Math.round(y) }, origin_pos, box);
-                drawPoint(point.x, point.y, this.color, box);
+                point = this.board.toDrawable({ x: Math.round(x), y: Math.round(y) }, this.origin_pos);
+                this.board.drawPoint(point.x, point.y, this.color);
             } while ((x != this.p2.x && y != this.p2.y) || counter <= (dx - 1));
         }
     }

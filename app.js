@@ -3,6 +3,7 @@
 
 //CLASSES
 import { Line } from "./Line.js";
+import { Board} from "./Board.js";
 
 /* CANVAS */
 const canvas = document.getElementById('canvas');
@@ -20,36 +21,8 @@ const details_p = document.getElementById('details-box__description');
 /* Canvas dimensions */
 const bw = 520;
 const bh = 520;
-const box = bw / (boxes.value + 1);
 
-/* drawBoard: width, height, boxes in a row
-    This functions draws the board with boxes
-*/
-function drawBoard(bw, bh, box) {
-    // canvas dims
-    const lw = 1              // box border
-    // box size
-    ctx.lineWidth = lw
-    ctx.strokeStyle = 'rgb(219, 213, 185)';
-    //boxes
-    drawBoxes(bw, bh, box);
-    //numbers
-    drawNumbers(bw, bh, box);
-}
-
-function drawBoxes(bw, bh, box) {
-    for (let x = box; x < bw; x += box) {
-        for (let y = box; y < bh; y += box) {
-            ctx.strokeRect(x, y, box, box);
-        }
-    }
-}
-
-function drawNumbers(bw, bh, box) {
-    for (let x = 0; x < bw; x += box) {
-        //paint numbers
-    }
-}
+const board = new Board(ctx, bw, bh, parseInt(boxes.value));
 
 
 /** placeAlgorithms
@@ -124,11 +97,10 @@ function placeDetails(graphType) {
     }
 }
 function setup() {
-    let box = bw / (parseInt(boxes.value) + 1);
     placeAlgorithms(graphType.value);
     placeDetails(graphType.value);
-    drawBoard(bw, bh, box);
-    graphOrigin(originPosition.value, parseInt(boxes.value));
+    board.drawBoard(parseInt(boxes.value));
+    board.graphOrigin(originPosition.value);
 }
 setup();
 
@@ -148,30 +120,10 @@ btn.addEventListener('click', () => {
  * This functions graphs according to the options
  */
 function graph(origin, graphType, algorithm, boxes) {
-    let box = bw / (boxes + 1);
-    ctx.clearRect(0, 0, bw, bh);
-    drawBoard(bw, bh, box);
-    graphOrigin(origin, boxes);
-    useAlgorithm(origin, graphType, algorithm, box, boxes);
-}
-
-/** This functions paints the origin in the drawboard */
-function graphOrigin(origin, boxes) {
-    let box = bw / (boxes + 1); //width of a box
-    if (origin == "Upper-left") {
-        drawPoint(box, box, "red", box);
-    }
-    else if (origin == "Centered") {
-        drawPoint(box * Math.ceil(boxes / 2), box * Math.ceil(boxes / 2), "red", box);
-    }
-}
-
-/** drawPoint
- * This functions paitns the whole box that starts at (x,y) with color indicated in style and height and width defined by box.
- */
-function drawPoint(x, y, style, box) {
-    ctx.fillStyle = style;
-    ctx.fillRect(x, y, box, box);
+    board.clearBoard();
+    board.drawBoard(boxes);
+    board.graphOrigin(origin);
+    useAlgorithm(graphType, algorithm, board);
 }
 
 /**
@@ -181,35 +133,23 @@ function drawPoint(x, y, style, box) {
  * @param {*} box 
  * This function graphs the figure according to the graph type, the algorithm and the length of a box
  */
-function useAlgorithm(origin, graphType, algorithm, box, boxes) {
+function useAlgorithm(graphType, algorithm, board) {
     if (graphType == "Line") {
         const x1 = parseInt(document.getElementById('x1').value);
         const y1 = parseInt(document.getElementById('y1').value);
         const x2 = parseInt(document.getElementById('x2').value);
         const y2 = parseInt(document.getElementById('y2').value);
-        const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, boxes, origin, toDrawable);
+        const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, board);
         if (algorithm == "Basic") {
-            line.basicAlgorithm(box, origin);
+            line.basicAlgorithm();
         }
         else if (algorithm == "dda") {
-            line.digitalDifferentialAnalyzer(box, origin);
+            line.digitalDifferentialAnalyzer();
         }
         else if (algorithm == "bresenham") {
-            line.bresenhamsAlgorithm(box, origin);
+            line.bresenhamsAlgorithm();
         }
     }
 }
 
-/**
- * toDrawable: cartesian coordinates in JSON, origin in JSON-> drawable coordinates
- * @param {JSON} p 
- * @param {JSON} origin
- * @param {number} box
- * This function converts from cartesian coordinates to canvas coordinates, in order to paint
- */
-function toDrawable(p, origin, box) {
-    return {
-        x: p.x * box + origin.x,
-        y: -p.y * box + origin.y
-    }
-}
+
