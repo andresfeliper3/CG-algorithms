@@ -109,7 +109,12 @@ export class Line {
                 }
                 else {
                     pk = pk + 2 * dy - 2 * dx;
-                    y++;
+                    //NON-PRESENT CONDITIONAL IN THE ALGORITHM
+                    if (this.p2.y < this.p1.y) {
+                        y--;
+                    } else {
+                        y++;
+                    }
                 }
                 x++;
                 counter++;
