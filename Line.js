@@ -71,8 +71,8 @@ export class Line {
         console.log(this.p1);
         console.log(this.p2)
         console.log(this.box)
-        let dx = Math.abs(this.p2.x - this.p1.x);
-        let dy = Math.abs(this.p2.y - this.p1.y);
+        let dx = this.p2.x - this.p1.x;
+        let dy = this.p2.y - this.p1.y;
         let steps = dx > dy ? dx : dy;
         let xincr = dx / steps;
         let yincr = dy / steps;
