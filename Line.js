@@ -22,14 +22,14 @@ export class Line {
         if (this.origin == "Centered") {
             if (Math.abs(p1.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p1.y) > Math.ceil((this.boxes / 2) - 1) ||
                 Math.abs(p2.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p2.y) > Math.ceil((this.boxes / 2)) - 1) {
-                console.log(p1,p2);
-                    alert("Invalid coordinates");
+                console.log(p1, p2);
+                alert("Invalid coordinates");
                 throw Error("Invalid coordinates");
             }
         }
         else if (this.origin == "Upper-left") {
             if (p1.x < 0 || p1.y < 0 || p2.x < 0 || p2.y < 0) {
-                alert("Invalid coordinates");Graph
+                alert("Invalid coordinates"); Graph
                 throw Error("Invalid coordinates");
             }
         }
@@ -67,6 +67,10 @@ export class Line {
     }
 
     digitalDifferentialAnalyzer() {
+        console.log("dda");
+        console.log(this.p1);
+        console.log(this.p2)
+        console.log(this.box)
         let dx = Math.abs(this.p2.x - this.p1.x);
         let dy = Math.abs(this.p2.y - this.p1.y);
         let steps = dx > dy ? dx : dy;
@@ -77,14 +81,13 @@ export class Line {
         if (this.origin == "Upper-left") {
             this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
             for (let k = 1; k <= steps; k++) {
+                console.log(x, y);
                 x = x + xincr;
                 y = y + yincr;
                 this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
             }
         }
         else if (this.origin == "Centered") {
-            //Calculate origin position in centered
-           
             let point = this.board.toDrawable({ x: Math.round(x), y: Math.round(y) }, this.origin_pos);
             this.board.drawPoint(point.x, point.y, this.color);
             for (let k = 1; k <= steps; k++) {
@@ -103,7 +106,7 @@ export class Line {
         let y = this.p1.y;
         let pk = 2 * dy - dx;
         let counter = 0;
-        if (this.origin == "Upper-lGrapheft") {
+        if (this.origin == "Upper-left") {
             this.board.drawPoint(this.box + x * this.box, this.box + y * this.box, this.color);
             do {
                 if (pk < 0) {

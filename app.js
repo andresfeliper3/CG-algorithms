@@ -3,7 +3,7 @@
 
 //CLASSES
 import { Line } from "./Line.js";
-import { Board} from "./Board.js";
+import { Board } from "./Board.js";
 import { Circle } from "./Circle.js";
 
 /* CANVAS */
@@ -151,12 +151,12 @@ function useAlgorithm(graphType, algorithm, board) {
             line.bresenhamsAlgorithm();
         }
     }
-    else if(graphType == "Circle"){
+    else if (graphType == "Circle") {
         const h = parseInt(document.getElementById('h').value) || 0;
         const k = parseInt(document.getElementById('k').value) || 0;
         const r = parseInt(document.getElementById('r').value) || 0;
-        const circle = new Circle({h: h, k: k}, r, board);
-        if(algorithm == "bresenham") {
+        const circle = new Circle({ h: h, k: k }, r, board);
+        if (algorithm == "bresenham") {
             circle.bresenhamsAlgorithm();
         }
     }
