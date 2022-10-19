@@ -67,13 +67,9 @@ export class Line {
     }
 
     digitalDifferentialAnalyzer() {
-        console.log("dda");
-        console.log(this.p1);
-        console.log(this.p2)
-        console.log(this.box)
         let dx = this.p2.x - this.p1.x;
         let dy = this.p2.y - this.p1.y;
-        let steps = dx > dy ? dx : dy;
+        let steps = Math.abs(dx) > Math.abs(dy) ? Math.abs(dx) : Math.abs(dy);
         let xincr = dx / steps;
         let yincr = dy / steps;
         let x = this.p1.x;
@@ -81,7 +77,6 @@ export class Line {
         if (this.origin == "Upper-left") {
             this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
             for (let k = 1; k <= steps; k++) {
-                console.log(x, y);
                 x = x + xincr;
                 y = y + yincr;
                 this.board.drawPoint(this.box + Math.round(x) * this.box, this.box + Math.round(y) * this.box, this.color);
