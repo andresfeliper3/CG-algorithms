@@ -78,6 +78,8 @@ export class Circle {
     }
     console.log(listPoints)
     this.reflectInQuadrant(listPoints);
+    this.reflectInX(listPoints);
+    this.reflectInY(listPoints);
     this.graph(listPoints);
   }
   /**
@@ -93,6 +95,33 @@ export class Circle {
   }
 
   /**
+   * reflectInX:
+   * Reflects the part of the circumference across the x-axis
+   * @param {array} listPoints 
+   */
+  reflectInX(listPoints) {
+    let size = listPoints.length;
+    for (let k = 0; k < size; k++) {
+      listPoints.push({ x: listPoints[k].x, y: -listPoints[k].y });
+    }
+  }
+
+  /**
+   * reflectInY:
+   * Reflects the part of the circumference across the y-axis
+   * @param {array} listPoints 
+   */
+  reflectInY(listPoints) {
+    let size = listPoints.length;
+    for (let k = 0; k < size; k++) {
+      listPoints.push({ x: -listPoints[k].x, y: listPoints[k].y });
+    }
+  }
+
+  translateCenter(listPoints) {
+
+  }
+  /**
    * listPoints:
    * This functions receives an array of all the points of the circle and paints it
    * @param {array} listPoints 
@@ -104,8 +133,9 @@ export class Circle {
       });
     }
     else if (this.origin == "Centered") {
+      console.log("should draw")
       listPoints.forEach(point => {
-        this.board.drawPoint(this.origin_pos + point.x * this.box, this.origin_pos + point.y * this.box, this.color);
+        this.board.drawPoint(this.origin_pos.x + point.x * this.box, this.origin_pos.y + point.y * this.box, this.color);
       });
     }
   }
