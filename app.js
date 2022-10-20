@@ -44,7 +44,7 @@ function placeAlgorithms(graphType) {
         algorithm.add(bresenham);
     }
     else if (graphType == "Circle") {
-        let dda = new Option('Digital differential analyzer', 'dda');
+        let dda = new Option('Mid-point circle drawing algorithm', 'mid-point');
         let bresenham = new Option('Bresenham\'s algorithm', 'bresenham');
         algorithm.add(dda);
         algorithm.add(bresenham);
@@ -158,6 +158,9 @@ function useAlgorithm(graphType, algorithm, board) {
         const circle = new Circle({ h: h, k: k }, r, board);
         if (algorithm == "bresenham") {
             circle.bresenhamsAlgorithm();
+        }
+        else if (algorithm == "mid-point") {
+            circle.midPointCircleAlgorithm();
         }
     }
 }
