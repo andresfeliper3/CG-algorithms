@@ -37,56 +37,37 @@ export class Circle {
     this.center = center;
   }
 
-
   midPointCircleAlgorithm() {
     //List to keep track of the points in order to reflect them
     let listPoints = [];
     let pk = 1.25 - this.radius; //CHANGE
-    if (this.origin == "Upper-left") {
-      let x = 0;
-      let y = this.radius;
-      listPoints.push({ x: x, y: y });
-      for (let k = 0; x <= y; k++) {
-        if (pk < 0) {
-          pk = pk + 2 * x + 1;
-        }
-        else {
-          pk = pk - 2 * y + 2 * x + 1; //CHANGE
-          y--;
-        }
-        x++;
-        //Add point to the array
-        listPoints.push({ x: x, y: y });
+    let x = 0;
+    let y = this.radius;
+    listPoints.push({ x: x, y: y });
+    for (let k = 0; x <= y; k++) {
+      if (pk < 0) {
+        pk = pk + 2 * x + 1;
+      } else {
+        pk = pk - 2 * y + 2 * x + 1; //CHANGE
+        y--;
       }
-    }
-    else if (this.origin == "Centered") {
-      let x = 0;
-      let y = this.radius;
+      x++;
+      //Add point to the array
       listPoints.push({ x: x, y: y });
-      for (let k = 0; x <= y; k++) {
-        if (pk < 0) {
-          pk = pk + 2 * x + 1;
-        }
-        else {
-          pk = pk - 2 * y + 2 * x + 1; //CHANGE
-          y--;
-        }
-        x++;
-        //Add point to the array
-        listPoints.push({ x: x, y: y });
-      }
     }
-    console.log(listPoints)
+    console.log(listPoints);
     this.reflectInQuadrant(listPoints);
-    this.reflectInX(listPoints);
-    this.reflectInY(listPoints);
-    this.translateCenter(listPoints);
+    if (this.origin == "Centered") {
+      this.reflectInX(listPoints);
+      this.reflectInY(listPoints);
+    }
+    this.translateCenter(listPoints, this.origin);
     this.graph(listPoints);
   }
   /**
    * reflectInQuadrant
    * This function receives an array of points for the half of a quadrant, and reflects it in the same quadrant to complete it
-   * @param {array} listPoints 
+   * @param {array} listPoints
    */
   reflectInQuadrant(listPoints) {
     let size = listPoints.length;
@@ -98,7 +79,7 @@ export class Circle {
   /**
    * reflectInX:
    * Reflects the part of the circumference across the x-axis
-   * @param {array} listPoints 
+   * @param {array} listPoints
    */
   reflectInX(listPoints) {
     let size = listPoints.length;
@@ -110,7 +91,7 @@ export class Circle {
   /**
    * reflectInY:
    * Reflects the part of the circumference across the y-axis
-   * @param {array} listPoints 
+   * @param {array} listPoints
    */
   reflectInY(listPoints) {
     let size = listPoints.length;
@@ -122,35 +103,48 @@ export class Circle {
   /**
    * translateCenter:
    * This function translate the entire circumference moving it according to the specified center (h,k)
-   * @param {array} listPoints 
+   * @param {array} listPoints
    */
-  translateCenter(listPoints) {
-    console.log("translate to", this.center.h, this.center.k)
-    listPoints.forEach(point => {
-      point.x = point.x + this.center.h;
-      point.y = point.y - this.center.k;
-    });
+  translateCenter(listPoints, origin) {
+    console.log("translate to", this.center.h, this.center.k);
+    console.log("origin", origin)
+    if(origin == "Centered"){
+      listPoints.forEach((point) => {
+        point.x = point.x + this.center.h;
+        point.y = point.y - this.center.k;
+      });
+    }
+    else if(origin == "Upper-left"){
+      listPoints.forEach((point) => {
+        point.x = point.x + this.center.h;
+        point.y = point.y + this.center.k;
+      });
+    }   
   }
   /**
    * listPoints:
    * This functions receives an array of all the points of the circle and paints it
-   * @param {array} listPoints 
+   * @param {array} listPoints
    */
   graph(listPoints) {
     if (this.origin == "Upper-left") {
-      listPoints.forEach(point => {
-        this.board.drawPoint(this.box + point.x * this.box, this.box + point.y * this.box, this.color);
+      listPoints.forEach((point) => {
+        this.board.drawPoint(
+          this.box + point.x * this.box,
+          this.box + point.y * this.box,
+          this.color
+        );
       });
-    }
-    else if (this.origin == "Centered") {
-      console.log("should draw")
-      listPoints.forEach(point => {
-        this.board.drawPoint(this.origin_pos.x + point.x * this.box, this.origin_pos.y + point.y * this.box, this.color);
+    } else if (this.origin == "Centered") {
+      listPoints.forEach((point) => {
+        this.board.drawPoint(
+          this.origin_pos.x + point.x * this.box,
+          this.origin_pos.y + point.y * this.box,
+          this.color
+        );
       });
     }
   }
 
-  bresenhamsAlgorithm() {
-
-  }
+  bresenhamsAlgorithm() {}
 }
