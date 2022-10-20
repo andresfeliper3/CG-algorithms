@@ -39,12 +39,12 @@ export class Circle {
 
 
   midPointCircleAlgorithm() {
+    //List to keep track of the points in order to reflect them
+    let listPoints = [];
+    let pk = 1.25 - this.radius; //CHANGE
     if (this.origin == "Upper-left") {
-      //List to keep track of the points in order to reflect them
-      let listPoints = [];
       let x = 0;
       let y = this.radius;
-      let pk = 1.25 - this.radius; //CHANGE
       listPoints.push({ x: x, y: y });
       for (let k = 0; x <= y; k++) {
         if (pk < 0) {
@@ -55,28 +55,61 @@ export class Circle {
           y--;
         }
         x++;
-
+        //Add point to the array
         listPoints.push({ x: x, y: y });
       }
-      this.reflectInQuadrant(listPoints);
-      this.graph(listPoints);
     }
+    else if (this.origin == "Centered") {
+      let x = 0;
+      let y = this.radius;
+      listPoints.push({ x: x, y: y });
+      for (let k = 0; x <= y; k++) {
+        if (pk < 0) {
+          pk = pk + 2 * x + 1;
+        }
+        else {
+          pk = pk - 2 * y + 2 * x + 1; //CHANGE
+          y--;
+        }
+        x++;
+        //Add point to the array
+        listPoints.push({ x: x, y: y });
+      }
+    }
+    console.log(listPoints)
+    this.reflectInQuadrant(listPoints);
+    this.graph(listPoints);
   }
-
+  /**
+   * reflectInQuadrant
+   * This function receives an array of points for the half of a quadrant, and reflects it in the same quadrant to complete it
+   * @param {array} listPoints 
+   */
   reflectInQuadrant(listPoints) {
     let size = listPoints.length;
     for (let k = 0; k < size; k++) {
       listPoints.push({ x: listPoints[k].y, y: listPoints[k].x });
     }
-    console.log(listPoints)
   }
 
+  /**
+   * listPoints:
+   * This functions receives an array of all the points of the circle and paints it
+   * @param {array} listPoints 
+   */
   graph(listPoints) {
-    listPoints.forEach(point => {
-      this.board.drawPoint(this.box + point.x * this.box, this.box + point.y * this.box, this.color);
-    });
-
+    if (this.origin == "Upper-left") {
+      listPoints.forEach(point => {
+        this.board.drawPoint(this.box + point.x * this.box, this.box + point.y * this.box, this.color);
+      });
+    }
+    else if (this.origin == "Centered") {
+      listPoints.forEach(point => {
+        this.board.drawPoint(this.origin_pos + point.x * this.box, this.origin_pos + point.y * this.box, this.color);
+      });
+    }
   }
+
   bresenhamsAlgorithm() {
 
   }
