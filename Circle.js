@@ -80,6 +80,7 @@ export class Circle {
     this.reflectInQuadrant(listPoints);
     this.reflectInX(listPoints);
     this.reflectInY(listPoints);
+    this.translateCenter(listPoints);
     this.graph(listPoints);
   }
   /**
@@ -118,8 +119,17 @@ export class Circle {
     }
   }
 
+  /**
+   * translateCenter:
+   * This function translate the entire circumference moving it according to the specified center (h,k)
+   * @param {array} listPoints 
+   */
   translateCenter(listPoints) {
-
+    console.log("translate to", this.center.h, this.center.k)
+    listPoints.forEach(point => {
+      point.x = point.x + this.center.h;
+      point.y = point.y - this.center.k;
+    });
   }
   /**
    * listPoints:
