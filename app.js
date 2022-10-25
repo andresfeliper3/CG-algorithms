@@ -109,7 +109,10 @@ setup();
 /*EVENTS */
 
 originPosition.addEventListener("change", () => {
-    placeDetails(graphType.value);
+    //Replace details options only if the figure to draw is a circle
+    if (graphType.value == "Circle") {
+        placeDetails(graphType.value);
+    }
 });
 
 graphType.addEventListener("change", () => {
