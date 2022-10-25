@@ -108,18 +108,18 @@ export class Circle {
   translateCenter(listPoints, origin) {
     console.log("translate to", this.center.h, this.center.k);
     console.log("origin", origin)
-    if(origin == "Centered"){
+    if (origin == "Centered") {
       listPoints.forEach((point) => {
         point.x = point.x + this.center.h;
         point.y = point.y - this.center.k;
       });
     }
-    else if(origin == "Upper-left"){
+    else if (origin == "Upper-left") {
       listPoints.forEach((point) => {
         point.x = point.x + this.center.h;
         point.y = point.y + this.center.k;
       });
-    }   
+    }
   }
   /**
    * listPoints:
@@ -146,5 +146,5 @@ export class Circle {
     }
   }
 
-  bresenhamsAlgorithm() {}
+  bresenhamsAlgorithm() { }
 }

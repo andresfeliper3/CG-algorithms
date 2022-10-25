@@ -51,8 +51,8 @@ export class Line {
         if (this.origin == "Upper-left") {
             do {
                 this.board.drawPoint(this.box + x * this.box, this.box + Math.round(y) * this.box, this.color);
-                y = y + slope;
                 x++;
+                y = y + slope;
             } while (x <= this.p2.x);
         }
         else if (this.origin == "Centered") {
@@ -60,8 +60,8 @@ export class Line {
                 //Transform from cartesian to canvas coordinates
                 let point = this.board.toDrawable({ x: x, y: Math.round(y) }, this.origin_pos);
                 this.board.drawPoint(point.x, point.y, this.color);
-                y = y + slope;
                 x++;
+                y = y + slope;
             } while (x <= this.p2.x);
         }
     }

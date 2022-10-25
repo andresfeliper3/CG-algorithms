@@ -1,16 +1,22 @@
 export class Board {
-    constructor(ctx, bw, bh, boxes) {
+    constructor(ctx, bw, bh, boxes, origin) {
         this.ctx = ctx;
         this.bw = bw;
         this.bh = bh;
         this.boxes = boxes;
         this.box = this.bw / (this.boxes + 1);
-        this.origin;
+        this.origin = origin;
+        //Calculate origin position in centered
+        this.origin_pos = {
+            x: this.box * Math.ceil(this.boxes / 2),
+            y: this.box * Math.ceil(this.boxes / 2)
+        };
     }
     /* drawBoard: width, height, boxes in a row
     This functions draws the board with boxes
     */
-    drawBoard(boxes) {
+    drawBoard(origin, boxes) {
+        this.origin = origin;
         // canvas dims
         this.boxes = boxes;
         this.box = this.bw / (this.boxes + 1);
@@ -21,7 +27,7 @@ export class Board {
         //boxes
         this.drawBoxes(this.bw, this.bh, this.box);
         //numbers
-        this.drawNumbers(this.bw, this.bh, this.box);
+        this.drawNumbers();
     }
     drawBoxes() {
         for (let x = this.box; x < this.bw; x += this.box) {
@@ -31,12 +37,49 @@ export class Board {
         }
     }
     drawNumbers() {
-        for (let x = 0; x < this.bw; x += this.box) {
-            //paint numbers
+        let size = 0.5 * this.box;
+        this.ctx.font = `${size}px Arial`;
+        this.ctx.fillStyle = "black";
+        this.ctx.textAlign = "center";
+        if (this.origin == "Upper-left") {
+            let number = 0
+            for (let i = this.box; i < this.bw; i += this.box) {
+                //horizontal numbers
+                this.ctx.fillText(number, i + (0.5 * this.box), this.box / 1.55);
+                //vertical numbers
+                this.ctx.fillText(number, this.box / 2.1, i + (0.65 * this.box));
+                number++;
+            }
+        }
+        else if (this.origin == "Centered") {
+            let number = 0
+            console.log("box", this.boxes)
+            for (let i = this.box; i < this.bw / 2; i += this.box) {
+                //horizontal positive numbers
+                this.ctx.fillText(number, this.origin_pos.x - (0.5 * this.box) + i, this.box / 1.55);
+                //horizontal negative numbers
+                this.ctx.fillText(number * -1, this.origin_pos.x + this.box + (0.5 * this.box) - i, this.box / 1.55);
+                //vertical negative numbers
+                this.ctx.fillText(number * -1, this.box / 2.1, this.origin_pos.y - (0.3 * this.box) + i);
+                //vertical positive numbers
+                this.ctx.fillText(number, this.box / 2.1, this.origin_pos.x + this.box + (0.7 * this.box) - i);
+                number++;
+                console.log(number, i)
+
+            }
         }
     }
     clearBoard() {
         this.ctx.clearRect(0, 0, this.bw, this.bh);
+        //clear numbers
+        console.log("DELETE NUMBERS")
+        this.ctx.fillStyle = "#fff";
+        for (let i = 0; i < this.bw; i += this.box) {
+            //horizontal numbers
+            this.ctx.fillRect(i, 0, this.box, this.box);
+            //vertical numbers
+            this.ctx.fillRect(0, i, this.box, this.box);
+        }
     }
     /** This functions paints the origin in the drawboard */
     graphOrigin(origin) {
