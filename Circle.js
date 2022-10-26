@@ -55,14 +55,15 @@ export class Circle {
       //Add point to the array
       listPoints.push({ x: x, y: y });
     }
-    console.log(listPoints);
-    this.reflectInQuadrant(listPoints);
+
+    let notReflectedSize = listPoints.length;
+
     if (this.origin == "Centered") {
       this.reflectInX(listPoints);
       this.reflectInY(listPoints);
     }
     this.translateCenter(listPoints, this.origin);
-    this.graph(listPoints);
+    this.graph(listPoints, notReflectedSize);
   }
   /**
    * reflectInQuadrant
@@ -71,9 +72,10 @@ export class Circle {
    */
   reflectInQuadrant(listPoints) {
     let size = listPoints.length;
-    for (let k = 0; k < size; k++) {
+    for (let k = 0; k < size - 2; k++) {
       listPoints.push({ x: listPoints[k].y, y: listPoints[k].x });
     }
+    return listPoints;
   }
 
   /**
@@ -106,8 +108,6 @@ export class Circle {
    * @param {array} listPoints
    */
   translateCenter(listPoints, origin) {
-    console.log("translate to", this.center.h, this.center.k);
-    console.log("origin", origin)
     if (origin == "Centered") {
       listPoints.forEach((point) => {
         point.x = point.x + this.center.h;
@@ -126,21 +126,21 @@ export class Circle {
    * This functions receives an array of all the points of the circle and paints it
    * @param {array} listPoints
    */
-  graph(listPoints) {
+  graph(listPoints, notReflectedSize) {
     if (this.origin == "Upper-left") {
-      listPoints.forEach((point) => {
+      listPoints.forEach((point, index) => {
         this.board.drawPoint(
           this.box + point.x * this.box,
           this.box + point.y * this.box,
-          this.color
+          index < notReflectedSize ? "green" : this.color
         );
       });
     } else if (this.origin == "Centered") {
-      listPoints.forEach((point) => {
+      listPoints.forEach((point, index) => {
         this.board.drawPoint(
           this.origin_pos.x + point.x * this.box,
           this.origin_pos.y + point.y * this.box,
-          this.color
+          index < notReflectedSize ? "green" : this.color
         );
       });
     }
