@@ -57,13 +57,16 @@ export class Circle {
     }
 
     let notReflectedSize = listPoints.length;
-
+    this.reflectInQuadrant(listPoints);
     if (this.origin == "Centered") {
       this.reflectInX(listPoints);
       this.reflectInY(listPoints);
     }
     this.translateCenter(listPoints, this.origin);
-    this.graph(listPoints, notReflectedSize);
+    //do not paint if there is not radius
+    if (this.radius > 0) {
+      this.graph(listPoints, notReflectedSize);
+    }
   }
   /**
    * reflectInQuadrant
@@ -97,7 +100,7 @@ export class Circle {
    */
   reflectInY(listPoints) {
     let size = listPoints.length;
-    for (let k = 0; k < size; k++) {
+    for (let k = 1; k < size; k++) {
       listPoints.push({ x: -listPoints[k].x, y: listPoints[k].y });
     }
   }
@@ -146,5 +149,7 @@ export class Circle {
     }
   }
 
-  bresenhamsAlgorithm() { }
+  bresenhamsAlgorithm() {
+
+  }
 }

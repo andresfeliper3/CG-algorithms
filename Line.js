@@ -95,8 +95,8 @@ export class Line {
     }
 
     bresenhamsAlgorithm() {
-        let dx = Math.abs(this.p2.x - this.p1.x);
-        let dy = Math.abs(this.p2.y - this.p1.y);
+        let dx = this.p2.x - this.p1.x;
+        let dy = this.p2.y - this.p1.y;
         let x = this.p1.x;
         let y = this.p1.y;
         let pk = 2 * dy - dx;
