@@ -53,7 +53,7 @@ export class Board {
         }
         else if (this.origin == "Centered") {
             let number = 0
-            console.log("box", this.boxes)
+
             for (let i = this.box; i < this.bw / 2; i += this.box) {
                 //horizontal positive numbers
                 this.ctx.fillText(number, this.origin_pos.x - (0.5 * this.box) + i, this.box / 1.55);
@@ -64,7 +64,7 @@ export class Board {
                 //vertical positive numbers
                 this.ctx.fillText(number, this.box / 2.1, this.origin_pos.x + this.box + (0.7 * this.box) - i);
                 number++;
-                console.log(number, i)
+
 
             }
         }
@@ -72,7 +72,7 @@ export class Board {
     clearBoard() {
         this.ctx.clearRect(0, 0, this.bw, this.bh);
         //clear numbers
-        console.log("DELETE NUMBERS")
+
         this.ctx.fillStyle = "#fff";
         for (let i = 0; i < this.bw; i += this.box) {
             //horizontal numbers

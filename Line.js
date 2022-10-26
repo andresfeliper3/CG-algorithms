@@ -22,7 +22,6 @@ export class Line {
         if (this.origin == "Centered") {
             if (Math.abs(p1.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p1.y) > Math.ceil((this.boxes / 2) - 1) ||
                 Math.abs(p2.x) > Math.ceil((this.boxes / 2) - 1) || Math.abs(p2.y) > Math.ceil((this.boxes / 2)) - 1) {
-                console.log(p1, p2);
                 alert("Invalid coordinates");
                 throw Error("Invalid coordinates");
             }

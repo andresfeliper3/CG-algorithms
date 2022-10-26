@@ -65,7 +65,7 @@ export class Circle {
     this.translateCenter(listPoints, this.origin);
     //do not paint if there is not radius
     if (this.radius > 0) {
-      this.graph(listPoints, notReflectedSize);
+      this.graphMidPoint(listPoints, notReflectedSize);
     }
   }
   /**
@@ -129,7 +129,7 @@ export class Circle {
    * This functions receives an array of all the points of the circle and paints it
    * @param {array} listPoints
    */
-  graph(listPoints, notReflectedSize) {
+  graphMidPoint(listPoints, notReflectedSize) {
     if (this.origin == "Upper-left") {
       listPoints.forEach((point, index) => {
         this.board.drawPoint(
@@ -150,6 +150,60 @@ export class Circle {
   }
 
   bresenhamsAlgorithm() {
+    //List to keep track of the points in order to reflect them
+    let listPoints = [];
+    let x = 0;
+    let y = this.radius;
+    let d = 3 - (2 * this.radius);
+    listPoints.push({ x: x, y: y });
 
+    while (x <= y) {
+      if (d < 0) {
+        d = d + (4 * x) + 6;
+      }
+      else {
+        d = d + 4 * (x - y) + 10;
+        y--;
+      }
+      x++;
+      listPoints.push({ x: x, y: y });
+    }
+    this.graphBresenham(listPoints);
+    this.reflectInQuadrant(listPoints);
+    if (this.origin == "Centered") {
+      this.reflectInX(listPoints);
+      this.reflectInY(listPoints);
+    }
+    this.translateCenter(listPoints, this.origin);
+    //do not paint if there is not radius
+    if (this.radius > 0) {
+      this.graphBresenham(listPoints);
+    }
+  }
+
+  /**
+   * graphBresenham
+   * @param {array} listPoints 
+   * This functions graphs a list of points that should have been generated using Bresenham's algorithm
+   */
+  graphBresenham(listPoints) {
+    if (this.origin == "Upper-left") {
+      listPoints.forEach((point, index) => {
+        this.board.drawPoint(
+          this.box + point.x * this.box,
+          this.box + point.y * this.box,
+          this.color
+        );
+      });
+    }
+    else if (this.origin == "Centered") {
+      listPoints.forEach((point, index) => {
+        this.board.drawPoint(
+          this.origin_pos.x + point.x * this.box,
+          this.origin_pos.y + point.y * this.box,
+          this.color
+        );
+      });
+    }
   }
 }

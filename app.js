@@ -121,7 +121,6 @@ graphType.addEventListener("change", () => {
 });
 
 btn.addEventListener("click", () => {
-    console.log("origin click", originPosition.value)
     graph(
         originPosition.value,
         graphType.value,
