@@ -65,7 +65,7 @@ export class Circle {
     this.translateCenter(listPoints, this.origin);
     //do not paint if there is not radius
     if (this.radius > 0) {
-      this.graphMidPoint(listPoints, notReflectedSize);
+      this.graph(listPoints, notReflectedSize);
     }
   }
   /**
@@ -126,10 +126,10 @@ export class Circle {
   }
   /**
    * listPoints:
-   * This functions receives an array of all the points of the circle and paints it
+   * This functions receives an array of all the points of the circle and paints them
    * @param {array} listPoints
    */
-  graphMidPoint(listPoints, notReflectedSize) {
+  graph(listPoints, notReflectedSize) {
     if (this.origin == "Upper-left") {
       listPoints.forEach((point, index) => {
         this.board.drawPoint(
@@ -168,7 +168,7 @@ export class Circle {
       x++;
       listPoints.push({ x: x, y: y });
     }
-    this.graphBresenham(listPoints);
+    let notReflectedSize = listPoints.length;
     this.reflectInQuadrant(listPoints);
     if (this.origin == "Centered") {
       this.reflectInX(listPoints);
@@ -177,33 +177,8 @@ export class Circle {
     this.translateCenter(listPoints, this.origin);
     //do not paint if there is not radius
     if (this.radius > 0) {
-      this.graphBresenham(listPoints);
+      this.graph(listPoints, notReflectedSize);
     }
   }
 
-  /**
-   * graphBresenham
-   * @param {array} listPoints 
-   * This functions graphs a list of points that should have been generated using Bresenham's algorithm
-   */
-  graphBresenham(listPoints) {
-    if (this.origin == "Upper-left") {
-      listPoints.forEach((point, index) => {
-        this.board.drawPoint(
-          this.box + point.x * this.box,
-          this.box + point.y * this.box,
-          this.color
-        );
-      });
-    }
-    else if (this.origin == "Centered") {
-      listPoints.forEach((point, index) => {
-        this.board.drawPoint(
-          this.origin_pos.x + point.x * this.box,
-          this.origin_pos.y + point.y * this.box,
-          this.color
-        );
-      });
-    }
-  }
 }

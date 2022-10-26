@@ -121,6 +121,7 @@ graphType.addEventListener("change", () => {
 });
 
 btn.addEventListener("click", () => {
+
     graph(
         originPosition.value,
         graphType.value,
@@ -128,7 +129,7 @@ btn.addEventListener("click", () => {
         parseInt(boxes.value)
     );
 });
-2;
+
 //YOU MUST CHECK THESE VALUES
 
 /** Graph
