@@ -35,6 +35,7 @@ export class Circle {
       }
     }
     this.center = center;
+    console.log("center", this.center)
   }
 
   midPointCircleAlgorithm() {
@@ -114,7 +115,7 @@ export class Circle {
     if (origin == "Centered") {
       listPoints.forEach((point) => {
         point.x = point.x + this.center.h;
-        point.y = point.y - this.center.k;
+        point.y = point.y + this.center.k;
       });
     }
     else if (origin == "Upper-left") {
@@ -139,6 +140,7 @@ export class Circle {
         );
       });
     } else if (this.origin == "Centered") {
+      console.log("origin", this.origin)
       listPoints.forEach((point, index) => {
         this.board.drawPoint(
           this.origin_pos.x + point.x * this.box,
