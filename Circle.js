@@ -55,7 +55,7 @@ export class Circle {
       //Add point to the array
       listPoints.push({ x: x, y: y });
     }
-
+    console.log("array", listPoints)
     let notReflectedSize = listPoints.length;
     this.reflectInQuadrant(listPoints);
     if (this.origin == "Centered") {
@@ -142,7 +142,7 @@ export class Circle {
       listPoints.forEach((point, index) => {
         this.board.drawPoint(
           this.origin_pos.x + point.x * this.box,
-          this.origin_pos.y + point.y * this.box,
+          this.origin_pos.y - point.y * this.box,
           index < notReflectedSize ? "green" : this.color
         );
       });
