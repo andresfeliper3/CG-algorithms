@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Clipping algorithms</title>
+</head>
+<body>
+    <header>
+        <h1>Clipping algorithms</h1>
+        <p class="header_description">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita, atque fugiat. Fuga soluta libero consequatur, corporis harum deleniti, non quidem aut distinctio ea quasi vel quae cupiditate ipsum perspiciatis in?
+        </p>
+    </header>
+    <section class="options">
+        <div class="options__origin w-50">   
+            <h2 class="options__title">Select clipping graph</h2>
+            <p class="options__description">Select if you are going to clip a line (segment) or a polygon</p>
+            <select name="options__clipping-graph" id="options__clipping-graph">
+                <option value="Line">Line</option>
+                <option value="Polygon">Polygon</option>
+                
+            </select>
+        </div>
+        <div class="options__origin w-50">   
+            
+            <h2 class="options__title">Select clipping algorithm</h2>
+            <p class="options__description">Select if you are going to clip a line (segment) or a polygon</p>
+            <select name="options__algorithm" id="options__algorithm">
+               
+            </select>
+        </div>
+    </section>
+    <section class="graph-section">
+        <div class="details-box">
+            <h1 class="details__title">Details</h1>
+            <p id="details-box__description"></p>
+            <div id="details"></div>
+            <div class="graph-section__button"> 
+                <button id="graph-button">Graph</button>
+            </div>
+        </div>
+    
+        
+        <div class="canvas">
+            <h2 id="canvas__title">Window</h2>
+            <canvas id="canvas" width="520" height="520">
+               
+            </canvas>
+              
+        </d>
+    </section>
+
+    <script type="module" src="./clipping/app.js"></script>
+</body>
+
+
+</html>
