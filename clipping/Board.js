@@ -12,6 +12,7 @@ export class Board {
         this.algorithm = algorithm;
         if (this.algorithm == "cohenSutherland") {
             this.box = this.bw / (2 + 1);
+            this.minMaxValues = { xmin: this.box, xmax: this.box * 2, ymin: this.box, ymax: this.box * 2 }
             const lw = 1; // box border
             // box size
             this.ctx.lineWidth = lw;
@@ -91,11 +92,12 @@ export class Board {
      */
 
     drawLine(p1, p2, style) {
-        this.ctx.fillStyle = style;
+        this.ctx.strokeStyle = style;
         this.ctx.beginPath();
         this.ctx.moveTo(p1.x, p1.y);
         this.ctx.lineTo(p2.x, p2.y);
         this.ctx.stroke();
+        console.log(p1, p2)
     }
     /**
      * toDrawable: cartesian coordinates in JSON, origin in JSON-> drawable coordinates

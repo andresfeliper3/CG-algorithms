@@ -97,6 +97,7 @@ select#options__algorithm{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 #details-box__description {

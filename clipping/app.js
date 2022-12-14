@@ -1,5 +1,5 @@
-// import { Line } from "./Line";
 import { Board } from "./Board.js";
+import { Line } from "./Line.js";
 
 /* CANVAS */
 const canvas = document.getElementById("canvas");
@@ -10,6 +10,7 @@ const graphType = document.getElementById('options__clipping-graph');
 const algorithm = document.getElementById('options__algorithm');
 const details = document.getElementById("details");
 const details_p = document.getElementById("details-box__description");
+const btn = document.getElementById("graph-button");
 
 
 /* Canvas dimensions */
@@ -100,12 +101,62 @@ graphType.addEventListener("change", () => {
     //Replace details options
     placeDetails(graphType.value);
     placeAlgorithms(graphType.value);
-
 });
+
+btn.addEventListener("click", () => {
+
+    graph(
+        graphType.value,
+        algorithm.value,
+    );
+});
+
+
 
 function setup() {
     placeAlgorithms(graphType.value);
     placeDetails(graphType.value);
     board.drawBoard(algorithm.value);
+    board.drawLine({ x: 20, y: 25 }, { x: 100, y: 100 }, "black")
 }
 setup();
+
+/**
+ * useAlgorithm
+ * @param {*} graphType
+ * @param {*} algorithm
+ * @param {*} box
+ * This function graphs the figure according to the graph type, the algorithm and the length of a box
+ */
+function useAlgorithm(graphType, algorithm, board) {
+    if (graphType == "Line") {
+        const x1 = parseInt(document.getElementById("x1").value) || 0;
+        const y1 = parseInt(document.getElementById("y1").value) || 0;
+        const x2 = parseInt(document.getElementById("x2").value) || 0;
+        const y2 = parseInt(document.getElementById("y2").value) || 0;
+        const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, board);
+        if (algorithm == "cohenSutherland") {
+            line.cohenSutherland();
+        }
+    } else if (graphType == "Polygon") {
+        //     const h = parseInt(document.getElementById("h").value) || 0;
+        //     const k = parseInt(document.getElementById("k").value) || 0;
+        //     const r = parseInt(document.getElementById("r").value) || 0;
+        //     const circle = new Circle({ h: h, k: k }, r, board);
+        //     if (algorithm == "bresenham") {
+        //         circle.bresenhamsAlgorithm();
+        //     } else if (algorithm == "mid-point") {
+        //         circle.midPointCircleAlgorithm();
+        //     }
+    }
+}
+
+/** Graph
+ * This functions graphs according to the options
+ */
+function graph(graphType, algorithm) {
+    board.clearBoard();
+    board.drawBoard(algorithm);
+    useAlgorithm(graphType, algorithm, board);
+}
+
