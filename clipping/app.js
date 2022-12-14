@@ -1,3 +1,5 @@
+// import { Line } from "./Line";
+import { Board } from "./Board.js";
 
 /* CANVAS */
 const canvas = document.getElementById("canvas");
@@ -13,6 +15,8 @@ const details_p = document.getElementById("details-box__description");
 /* Canvas dimensions */
 const bw = 520;
 const bh = 520;
+
+const board = new Board(ctx, bw, bh, algorithm.value);
 
 /**
  * placeDetails:
@@ -102,6 +106,6 @@ graphType.addEventListener("change", () => {
 function setup() {
     placeAlgorithms(graphType.value);
     placeDetails(graphType.value);
-
+    board.drawBoard(algorithm.value);
 }
 setup();
