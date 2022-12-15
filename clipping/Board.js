@@ -20,14 +20,34 @@ export class Board {
             //boxes
             this.drawBoxes(this.bw, this.bh, this.box);
         }
+        else if (this.algorithm == "cyrusBeck") {
+            this.box = this.bw / (2 + 1);
+            const lw = 1; // box border
+            // box size
+            this.ctx.lineWidth = lw;
+            this.ctx.strokeStyle = "rgb(219, 213, 185)";
+            //boxes
+            this.drawBoxes(this.bw, this.bh, this.box);
+        }
 
         //numbers
         //this.drawNumbers();
     }
     drawBoxes() {
-        for (let x = 0; x < this.bw; x += this.box) {
-            for (let y = 0; y < this.bh; y += this.box) {
-                this.ctx.strokeRect(x, y, this.box, this.box);
+        if (this.algorithm == "cohenSutherland") {
+            for (let x = 0; x < this.bw; x += this.box) {
+                for (let y = 0; y < this.bh; y += this.box) {
+                    this.ctx.strokeRect(x, y, this.box, this.box);
+                }
+            }
+        }
+        else if (this.algorithm == "cyrusBeck") {
+            for (let x = 0; x < this.bw; x += this.box) {
+                for (let y = 0; y < this.bh; y += this.box) {
+                    if (x == this.box && y == this.box) {
+                        this.ctx.strokeRect(x, y, this.box, this.box);
+                    }
+                }
             }
         }
     }
@@ -97,7 +117,7 @@ export class Board {
         this.ctx.moveTo(p1.x, p1.y);
         this.ctx.lineTo(p2.x, p2.y);
         this.ctx.stroke();
-        console.log(p1, p2)
+
     }
     /**
      * toDrawable: cartesian coordinates in JSON, origin in JSON-> drawable coordinates

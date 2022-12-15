@@ -36,7 +36,7 @@ function placeDetails(graphType) {
         const x2 = document.createElement("input");
         const y2 = document.createElement("input");
         details_p.innerHTML =
-            "In order to graph a line, you must specify two points P(x1, y1) and Q(x2, y2).";
+            "In order to graph a line, you must specify two points P(x1, y1) and Q(x2, y2). Use coordinates in the interval (0-520).";
         x1.setAttribute("placeholder", "x1");
         y1.setAttribute("placeholder", "y1");
         x2.setAttribute("placeholder", "x2");
@@ -84,8 +84,9 @@ function placeAlgorithms(graphType) {
     if (graphType == "Line") {
         let cohenSutherland = new Option("Cohen-Sutherland", "cohenSutherland");
         let cyrusBeck = new Option("Cyrus-Beck", "cyrusBeck");
-        algorithm.add(cohenSutherland);
         algorithm.add(cyrusBeck);
+        algorithm.add(cohenSutherland);
+
     } else if (graphType == "Polygon") {
         let sutherlandHodgman = new Option("Sutherland-Hodgman", "sutherlandHodgman");
         let weilerAtherton = new Option("Weiler-Atherton", "weilerAtherton");
@@ -99,8 +100,12 @@ function placeAlgorithms(graphType) {
 
 graphType.addEventListener("change", () => {
     //Replace details options
-    placeDetails(graphType.value);
-    placeAlgorithms(graphType.value);
+    setup();
+});
+
+algorithm.addEventListener("change", () => {
+    board.clearBoard();
+    board.drawBoard(algorithm.value);
 });
 
 btn.addEventListener("click", () => {
@@ -117,7 +122,6 @@ function setup() {
     placeAlgorithms(graphType.value);
     placeDetails(graphType.value);
     board.drawBoard(algorithm.value);
-    board.drawLine({ x: 20, y: 25 }, { x: 100, y: 100 }, "black")
 }
 setup();
 
@@ -136,7 +140,12 @@ function useAlgorithm(graphType, algorithm, board) {
         const y2 = parseInt(document.getElementById("y2").value) || 0;
         const line = new Line({ x: x1, y: y1 }, { x: x2, y: y2 }, board);
         if (algorithm == "cohenSutherland") {
+            // board.ctx.setLineDash([5, 5]);
+            // board.drawLine({ x: x1, y: board.bh - y1 }, { x: x2, y: board.bh - y2 }, "red");
             line.cohenSutherland();
+        }
+        else if (algorithm == "cyrusBeck") {
+            line.cyrusBeck();
         }
     } else if (graphType == "Polygon") {
         //     const h = parseInt(document.getElementById("h").value) || 0;
