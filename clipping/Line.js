@@ -125,113 +125,73 @@ export class Line {
             console.log("Line rejected");
     }
 
-    cyrusBeckAlgorithm(P, V, L) {
-
-        // P is a point on the line
-        // V is the direction vector of the line
-        // L is an array of endpoints of the clipping window
-        // var P = { x: -250, y: -60 };
-        // var V = { x: 240, y: 0 };
-        // var L = [
-        //     { x: -86.66666666666666, y: -86.66666666666666 },
-        //     { x: 86.66666666666669, y: -86.66666666666666 },
-        //     { x: 86.66666666666669, y: 86.66666666666669 },
-        //     { x: -86.66666666666666, y: 86.66666666666669 }
-        // ];
-        console.log("P", P);
-        // console.log("P2", secondP)
-        console.log("V", V)
-        console.log("L", L)
-        var tE = -Infinity;
-        var tL = Infinity;
-        var d, n, t;
-
-        // Test against all edges of the clipping window
-        for (var i = 0; i < L.length; i++) {
-            // Current edge is L[i] to L[i + 1] (wraparound)
-            var E = L[i];
-            var F = L[(i + 1) % L.length];
-
-            // Compute direction vector of current edge
-            var D = {
-                x: F.x - E.x,
-                y: F.y - E.y
-            };
-
-            // Compute normal vector of current edge
-            n = {
-                x: D.y,
-                y: -D.x
-            };
-
-            // Compute signed distance from P to current edge
-            d = (P.x - E.x) * n.x + (P.y - E.y) * n.y;
-
-            // Compute t for intersection with current edge
-            if (V.x * n.x + V.y * n.y !== 0) {
-                t = d / (V.x * n.x + V.y * n.y);
-            } else {
-                // Line is parallel to current edge
-                if (d === 0) {
-                    // Line is contained within the clipping window
-                    return [P, P];
-                } else {
-                    // Line is outside the clipping window
-                    continue;
-                }
-            }
-
-            // Update tE and tL
-            if (V.x * n.x + V.y * n.y > 0) {
-                if (t > tE) {
-                    tE = t;
-                }
-            } else {
-                if (t < tL) {
-                    tL = t;
-                }
-            }
-
-            // If tE >= tL, line is outside the clipping window
-            if (tE >= tL) {
-                return false;
-            }
-        }
-
-        // Compute the endpoints of the clipped line
-        var P1 = {
-            x: P.x + tE * V.x,
-            y: P.y + tE * V.y
-        };
-        var P2 = {
-            x: P.x + tL * V.x,
-            y: P.y + tL * V.y
-        };
-        return [P1, P2];
-    }
 
     cyrusBeck() {
-        // Define the arguments
-        var P = { x: -250, y: -60 };
-        var V = { x: 240, y: 0 };
-        var L = [
-            { x: -86.66666666666666, y: -86.66666666666666 },
-            { x: 86.66666666666669, y: -86.66666666666666 },
-            { x: 86.66666666666669, y: 86.66666666666669 },
-            { x: -86.66666666666666, y: 86.66666666666669 }
+        let subjectLine = [[this.p1.x, this.p1.y], [this.p2.x, this.p2.y]];
+        let clipPolygon = [[this.box * 2, this.box], [this.box * 2, this.box * 2], [this.box, this.box * 2], [this.box, this.box]];
+        console.log("line", subjectLine)
+        console.log("polygon", clipPolygon)
+        // Compute the direction of the subject line
+        let lineDirection = [subjectLine[1][0] - subjectLine[0][0],
+        subjectLine[1][1] - subjectLine[0][1]
         ];
-        let clippedLine = this.cyrusBeckAlgorithm(P, V, L);
-        // Output the result
-        if (clippedLine) {
-            console.log("Clipped line:", clippedLine);
-            this.board.drawLine({ x: clippedLine[0].x + this.board.bw / 2, y: clippedLine[0].y + this.board.bh / 2 }, { x: clippedLine[1].x + this.board.bw / 2, y: clippedLine[1].y + this.board.bh / 2 }, "black")
-        } else {
-            console.log("Line is outside the clipping window");
+
+
+        // Set the initial values of the start and end points of the clipped line
+        let startPoint = subjectLine[0];
+        let endPoint = subjectLine[1];
+
+        // Loop through the edges of the clip polygon
+        for (let i = 0; i < clipPolygon.length; i++) {
+            let clipEdge = [clipPolygon[i], clipPolygon[(i + 1) % clipPolygon.length]];
+
+            // Compute the normal of the clip edge
+            let normal = [clipEdge[0][1] - clipEdge[1][1],
+            clipEdge[1][0] - clipEdge[0][0]
+            ];
+            // Compute the dot product of the line direction and the normal
+            let d = lineDirection[0] * normal[0] + lineDirection[1] * normal[1];
+            // If the dot product is less than or equal to zero,
+            // the subject line is outside the clip edge and should be clipped
+            if (d <= 0) {
+                // Compute the dot product of the vector from the start point to the first vertex
+                // of the clip edge and the normal of the clip edge
+                let t = (normal[0] * (clipEdge[0][0] - startPoint[0]) +
+                    normal[1] * (clipEdge[0][1] - startPoint[1])) / d;
+
+                // If t is in the range [0, 1], the subject line intersects the clip edge
+                if (t >= 0 && t <= 1) {
+                    // Compute the intersection point
+                    let intersection = [startPoint[0] + t * lineDirection[0],
+                    startPoint[1] + t * lineDirection[1]
+                    ];
+
+                    // Set the intersection point as the new start point
+                    startPoint = intersection;
+                }
+            } else {
+                // Compute the dot product of the vector from the end point to the first vertex
+                // of the clip edge and the normal of the clip edge
+                let t = (normal[0] * (clipEdge[0][0] - endPoint[0]) +
+                    normal[1] * (clipEdge[0][1] - endPoint[1])) / d;
+
+                // If t is in the range [0, 1], the subject line intersects the clip edge
+                if (t >= 0 && t <= 1) {
+                    // Compute the intersection point
+                    let intersection = [endPoint[0] + t * lineDirection[0],
+                    endPoint[1] + t * lineDirection[1]
+                    ];
+
+                    // Set the intersection point as the new end point
+                    endPoint = intersection;
+                }
+            }
         }
+
+        console.log(startPoint, endPoint)
+        // Return the start and end points of the clipped line
+        this.board.drawLine({ x: startPoint[0], y: this.board.bh - startPoint[1] }, { x: endPoint[0], y: this.board.bh - endPoint[1] }, "black");
     }
-
-
-
 
 
 
