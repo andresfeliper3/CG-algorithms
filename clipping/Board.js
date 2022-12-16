@@ -20,7 +20,7 @@ export class Board {
             //boxes
             this.drawBoxes(this.bw, this.bh, this.box);
         }
-        else if (this.algorithm == "cyrusBeck") {
+        else if (this.algorithm == "cyrusBeck" || this.algorithm == "sutherlandHodgman") {
             this.box = this.bw / (2 + 1);
             const lw = 1; // box border
             // box size
@@ -41,7 +41,7 @@ export class Board {
                 }
             }
         }
-        else if (this.algorithm == "cyrusBeck") {
+        else if (this.algorithm == "cyrusBeck" || this.algorithm == "sutherlandHodgman") {
             for (let x = 0; x < this.bw; x += this.box) {
                 for (let y = 0; y < this.bh; y += this.box) {
                     if (x == this.box && y == this.box) {

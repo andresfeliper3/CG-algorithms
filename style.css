@@ -140,3 +140,16 @@ select#options__algorithm{
 select#options__clipping-algorithm{
     width:50%;
 }
+
+#amountBtn {
+    /*Text inside button*/
+    white-space: normal;
+    word-wrap: break-word;
+    width:50px;
+    margin-top: 10px;
+    height: 30px;
+    border-radius: 10px;
+    background-color:antiquewhite;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    cursor:pointer;
+}

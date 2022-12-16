@@ -1,5 +1,6 @@
 import { Board } from "./Board.js";
 import { Line } from "./Line.js";
+import { Polygon } from "./Polygon.js";
 
 /* CANVAS */
 const canvas = document.getElementById("canvas");
@@ -12,12 +13,24 @@ const details = document.getElementById("details");
 const details_p = document.getElementById("details-box__description");
 const btn = document.getElementById("graph-button");
 
+//Polygons
+const amount = document.createElement("input");
+const amountBtn = document.createElement("button");
 
 /* Canvas dimensions */
 const bw = 520;
 const bh = 520;
 
 const board = new Board(ctx, bw, bh, algorithm.value);
+
+
+function addAmountBtn() {
+    amount.setAttribute("placeholder", "n");
+    amountBtn.setAttribute("id", "amountBtn");
+    amountBtn.innerHTML = "Add";
+    details.appendChild(amount);
+    details.appendChild(amountBtn);
+}
 
 /**
  * placeDetails:
@@ -50,11 +63,12 @@ function placeDetails(graphType) {
         details.appendChild(x2);
         details.appendChild(y2);
     } else if (graphType == "Polygon") {
+        details_p.innerHTML = "Select the number of vertices and enter their coordinates. They must be between (0-520). The polygon is graphed in order."
         // const h = document.createElement("input");
         // const k = document.createElement("input");
         // const r = document.createElement("input");
-        // details_p.innerHTML =
-        //     "In order to graph a circumference, you must specify a center C(h, k) and a radius r.";
+
+
         // h.setAttribute("placeholder", "h");
         // k.setAttribute("placeholder", "k");
         // r.setAttribute("placeholder", "r");
@@ -66,6 +80,7 @@ function placeDetails(graphType) {
         //     h.style.display = 'none';
         //     k.style.display = 'none';
         // }
+        addAmountBtn();
         // details.appendChild(h);
         // details.appendChild(k);
         // details.appendChild(r);
@@ -116,6 +131,24 @@ btn.addEventListener("click", () => {
     );
 });
 
+let polygonVertices = [];
+amountBtn.addEventListener("click", () => {
+    details.innerHTML = "";
+    addAmountBtn();
+    for (let i = 0; i < parseInt(amount.value) * 2; i++) {
+        polygonVertices.push(document.createElement("input"));
+        polygonVertices[i].style.display = "inline-block";
+        let placeholder = "";
+        if (i % 2 == 0) {
+            placeholder = `x${i / 2}`
+        }
+        else {
+            placeholder = `y${(i - 1) / 2}`
+        }
+        polygonVertices[i].setAttribute("placeholder", placeholder);
+        details.appendChild(polygonVertices[i]);
+    }
+});
 
 
 function setup() {
@@ -146,28 +179,24 @@ function useAlgorithm(graphType, algorithm, board) {
         }
         else if (algorithm == "cyrusBeck") {
             // line.cyrusBeck();
-
-
-            //   # polígono sujeto
-            let subject_polygon = [[50, 150], [200, 50], [350, 150], [350, 300], [250, 300], [200, 250], [150, 350], [100, 250], [100, 200]]
-
-            // # polígono de recorte
-            let clip_polygon = [[100, 100], [300, 100], [300, 300], [100, 300]]
-
-            // #Polígono resultante
-            let output_polygon = line.sutherlandHodgman(subject_polygon, clip_polygon)
-            console.log("Poligono:", output_polygon)
         }
     } else if (graphType == "Polygon") {
-        //     const h = parseInt(document.getElementById("h").value) || 0;
-        //     const k = parseInt(document.getElementById("k").value) || 0;
-        //     const r = parseInt(document.getElementById("r").value) || 0;
-        //     const circle = new Circle({ h: h, k: k }, r, board);
-        //     if (algorithm == "bresenham") {
-        //         circle.bresenhamsAlgorithm();
-        //     } else if (algorithm == "mid-point") {
-        //         circle.midPointCircleAlgorithm();
-        //     }
+        const polygon = new Polygon(board);
+        if (algorithm == "sutherlandHodgman") {
+            //    # polígono sujeto
+            // let subject_polygon = [[50, 150], [200, 50], [350, 150], [350, 300], [250, 300], [200, 250], [150, 350], [100, 250], [100, 200]]
+            //polígono sujeto
+            let verticesValues = polygonVertices.map(elem => parseInt(elem.value) || 0);
+            let subject_polygon = [];
+            for (let i = 0; i < verticesValues.length; i += 2) {
+                subject_polygon.push([verticesValues[i], verticesValues[i + 1]]);
+            }
+            // # polígono de recorte
+            let clip_polygon = [[board.box, board.box], [board.box * 2, board.box], [board.box * 2, board.box * 2], [board.box, board.box * 2]]
+
+            // #Polígono resultante
+            polygon.sutherlandHodgman(subject_polygon, clip_polygon)
+        }
     }
 }
 

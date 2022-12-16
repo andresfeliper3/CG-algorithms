@@ -202,6 +202,13 @@ export class Line {
         }
 
 
+
+        for (let i = 0; i < subjectPolygon.length - 1; i++) {
+            this.board.drawLine({ x: subjectPolygon[i][0], y: subjectPolygon[i][1] }, { x: subjectPolygon[i + 1][0], y: subjectPolygon[i + 1][1] }, "black");
+        }
+        this.board.drawLine({ x: subjectPolygon[subjectPolygon.length - 1][0], y: subjectPolygon[subjectPolygon.length - 1][1] }, { x: subjectPolygon[0][0], y: subjectPolygon[0][1] }, "black");
+
+
         function computeIntersection(cp1, cp2, e, s) {
             let dc = [cp1[0] - cp2[0], cp1[1] - cp2[1]]
             let dp = [s[0] - e[0], s[1] - e[1]]
@@ -239,6 +246,14 @@ export class Line {
             }
             this.cp1 = this.cp2
         }
+
+
+
+        for (let i = 0; i < this.outputList.length - 1; i++) {
+            this.board.drawLine({ x: this.outputList[i][0], y: this.outputList[i][1] }, { x: this.outputList[i + 1][0], y: this.outputList[i + 1][1] }, "red");
+        }
+        this.board.drawLine({ x: this.outputList[this.outputList.length - 1][0], y: this.outputList[this.outputList.length - 1][1] }, { x: this.outputList[0][0], y: this.outputList[0][1] }, "red");
+
 
         return (this.outputList)
 
