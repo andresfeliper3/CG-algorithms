@@ -145,7 +145,18 @@ function useAlgorithm(graphType, algorithm, board) {
             line.cohenSutherland();
         }
         else if (algorithm == "cyrusBeck") {
-            line.cyrusBeck();
+            // line.cyrusBeck();
+
+
+            //   # polígono sujeto
+            let subject_polygon = [[50, 150], [200, 50], [350, 150], [350, 300], [250, 300], [200, 250], [150, 350], [100, 250], [100, 200]]
+
+            // # polígono de recorte
+            let clip_polygon = [[100, 100], [300, 100], [300, 300], [100, 300]]
+
+            // #Polígono resultante
+            let output_polygon = line.sutherlandHodgman(subject_polygon, clip_polygon)
+            console.log("Poligono:", output_polygon)
         }
     } else if (graphType == "Polygon") {
         //     const h = parseInt(document.getElementById("h").value) || 0;

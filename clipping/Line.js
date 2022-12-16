@@ -136,7 +136,7 @@ export class Line {
         subjectLine[1][1] - subjectLine[0][1]
         ];
 
-
+        console.log("lineDirection", lineDirection)
         // Set the initial values of the start and end points of the clipped line
         let startPoint = subjectLine[0];
         let endPoint = subjectLine[1];
@@ -144,21 +144,23 @@ export class Line {
         // Loop through the edges of the clip polygon
         for (let i = 0; i < clipPolygon.length; i++) {
             let clipEdge = [clipPolygon[i], clipPolygon[(i + 1) % clipPolygon.length]];
-
+            console.log("clip edge", clipEdge)
             // Compute the normal of the clip edge
             let normal = [clipEdge[0][1] - clipEdge[1][1],
             clipEdge[1][0] - clipEdge[0][0]
             ];
             // Compute the dot product of the line direction and the normal
             let d = lineDirection[0] * normal[0] + lineDirection[1] * normal[1];
+            console.log("dot product", d)
             // If the dot product is less than or equal to zero,
             // the subject line is outside the clip edge and should be clipped
             if (d <= 0) {
+                console.log("ACCEPT");
                 // Compute the dot product of the vector from the start point to the first vertex
                 // of the clip edge and the normal of the clip edge
                 let t = (normal[0] * (clipEdge[0][0] - startPoint[0]) +
                     normal[1] * (clipEdge[0][1] - startPoint[1])) / d;
-
+                console.log("t,", t)
                 // If t is in the range [0, 1], the subject line intersects the clip edge
                 if (t >= 0 && t <= 1) {
                     // Compute the intersection point
@@ -170,6 +172,7 @@ export class Line {
                     startPoint = intersection;
                 }
             } else {
+                console.log("REJECT")
                 // Compute the dot product of the vector from the end point to the first vertex
                 // of the clip edge and the normal of the clip edge
                 let t = (normal[0] * (clipEdge[0][0] - endPoint[0]) +
@@ -188,11 +191,57 @@ export class Line {
             }
         }
 
-        console.log(startPoint, endPoint)
+        console.log("result", startPoint, endPoint)
         // Return the start and end points of the clipped line
         this.board.drawLine({ x: startPoint[0], y: this.board.bh - startPoint[1] }, { x: endPoint[0], y: this.board.bh - endPoint[1] }, "black");
     }
 
+    sutherlandHodgman(subjectPolygon, clipPolygon) {
+        function inside(p, cp1, cp2) {
+            return (cp2[0] - cp1[0]) * (p[1] - cp1[1]) > (cp2[1] - cp1[1]) * (p[0] - cp1[0])
+        }
 
+
+        function computeIntersection(cp1, cp2, e, s) {
+            let dc = [cp1[0] - cp2[0], cp1[1] - cp2[1]]
+            let dp = [s[0] - e[0], s[1] - e[1]]
+            let n1 = cp1[0] * cp2[1] - cp1[1] * cp2[0]
+            let n2 = s[0] * e[1] - s[1] * e[0]
+            let n3 = 1.0 / (dc[0] * dp[1] - dc[1] * dp[0])
+            return [(n1 * dp[0] - n2 * dc[0]) * n3, (n1 * dp[1] - n2 * dc[1]) * n3]
+
+        }
+
+
+
+        this.outputList = subjectPolygon
+
+        this.cp1 = clipPolygon[clipPolygon.length - 1];
+
+        for (let clipVertex of clipPolygon) {
+            this.cp2 = clipVertex
+            this.inputList = this.outputList
+            this.outputList = []
+            this.s = this.inputList[this.inputList.length - 1]
+            for (let subjectVertex of this.inputList) {
+                this.e = subjectVertex
+                if (inside(this.e, this.cp1, this.cp2)) {
+                    if (!inside(this.s, this.cp1, this.cp2)) {
+                        this.outputList.push(computeIntersection(this.cp1, this.cp2, this.e, this.s))
+                    }
+                    this.outputList.push(this.e)
+                }
+
+                else if (inside(this.s, this.cp1, this.cp2)) {
+                    this.outputList.push(computeIntersection(this.cp1, this.cp2, this.e, this.s))
+                }
+                this.s = this.e
+            }
+            this.cp1 = this.cp2
+        }
+
+        return (this.outputList)
+
+    }
 
 }
