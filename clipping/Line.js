@@ -115,11 +115,12 @@ export class Line {
             }
         }
         if (accept) {
+            this.board.drawLine({ x: this.p1.x, y: this.board.bh - this.p1.y }, { x: this.p2.x, y: this.board.bh - this.p2.y }, "black");
             console.log("Line accepted from", x1, ",", y1, "to", x2, ",", y2);
             // Here the user can add code to display the rectangle
             // along with the accepted (portion of) lines
             //the y is graphed so that it increases from bottom to top of the canvas
-            this.board.drawLine({ x: x1, y: this.board.bh - y1 }, { x: x2, y: this.board.bh - y2 }, "black");
+            this.board.drawLine({ x: x1, y: this.board.bh - y1 }, { x: x2, y: this.board.bh - y2 }, "red");
         }
         else
             console.log("Line rejected");
