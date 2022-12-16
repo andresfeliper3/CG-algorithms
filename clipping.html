@@ -11,7 +11,15 @@
     <header>
         <h1>Clipping algorithms</h1>
         <p class="header_description">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita, atque fugiat. Fuga soluta libero consequatur, corporis harum deleniti, non quidem aut distinctio ea quasi vel quae cupiditate ipsum perspiciatis in?
+            Computer graphics algorithms used for clipping using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
+            The canvas represents the window (entire landscape of what is going to be shown) and the viewport (represents the screen of the device) is graphed according to the algorithm.
+        </p>
+        <p class="header_description">
+            You can select the type of graph (line or polygon) and the algorithm used for the clipping. The content of the canvas changes according to the algorithm implementation.
+            Lines only need two points (x1,y1) and (x2,y2) but polygons have vertices so you can choose how many vertices you would like to graph and they are graphed in the order you enter them.
+        </p>
+        <p class="header_description">
+           The clipped segments that are inside the viewport are painted in <span style="color:red;">red</span> color. The segments that are rejected and not painted inside the viewport are in <b>black</b> color.  
         </p>
     </header>
     <section class="options">
