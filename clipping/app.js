@@ -99,8 +99,8 @@ function placeAlgorithms(graphType) {
     if (graphType == "Line") {
         let cohenSutherland = new Option("Cohen-Sutherland", "cohenSutherland");
         let cyrusBeck = new Option("Cyrus-Beck", "cyrusBeck");
-        algorithm.add(cyrusBeck);
         algorithm.add(cohenSutherland);
+        algorithm.add(cyrusBeck);
 
     } else if (graphType == "Polygon") {
         let sutherlandHodgman = new Option("Sutherland-Hodgman", "sutherlandHodgman");
@@ -178,7 +178,7 @@ function useAlgorithm(graphType, algorithm, board) {
             line.cohenSutherland();
         }
         else if (algorithm == "cyrusBeck") {
-            // line.cyrusBeck();
+            line.cyrusBeck()
         }
     } else if (graphType == "Polygon") {
         const polygon = new Polygon(board);
