@@ -8,23 +8,54 @@
     <title>CG Algorithms</title>
 </head>
 <body>
-    <header>
-        <h1>Rasterization Algorithms</h1>
-        <p class="header_description">Computer graphics algorithms used for rasterization using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
-            Imagine each box in the canvas is a pixel and can be understood as a discrete coordinate. The algorithms graph by painting whole pixels. This means that perfect figures may not be drawn. 
-        </p>
-        <p class="header_description">
-            You can select the origin position of the system of coordinates. In <b>Upper-left</b> the coordinates increase to the right and to the bottom. In <b>Centered</b> the coordinates
-            increase to the right and to the top.
-        </p>
-        <p class="header_description">
-            You can choose the type of graph you would like to paint as well as the algorithm to use. Keep in mind that some algorithms may be better than others. You can also choose the amount of boxes 
-            or squares that a row can have in the canvas. A higher number of boxes means can work for better figures and a lower number of boxes can be used to see in detail. For a good performance
-            try to use numbers in the recomended range (10-100).</p>
-        <p class="header_description"> 
-            In algorithms that paint circles, the <span style="color:green;">green</span> pixels represent the pixels that are painted by the original algorithm and the rest are produced by reflection.
-        </p>
+    <header class="mainHeader">
+        <h1>Computer Graphics</h1>
+        
     </header>
+    <navbar id="navbar">
+        <div>   
+            <a class="navbar__link" href="index.html">
+                <h3 class="options__title">Home</h3>
+            </a>
+        </div>
+        <div>   
+            <a class="navbar__link" href="rasterization.html">
+                <h3 class="options__title">Rasterization</h3>
+            </a>
+        </div>
+        <div>
+            <a class="navbar__link" href="./clipping/clipping.html">
+             <h3 class="navbar__title">Clipping</h3>
+            </a>
+        </div>
+    
+        <div>
+            <a class="navbar__link" href="./color/color.html">
+            <h3 class="navbar__title">Color</h3>
+            </a>
+        </div>
+        
+        
+    </navbar>
+    <section id="main_page">
+           <div>
+            <h3>Rasterization algorithms</h3>
+            <p class="header_description">Computer graphics algorithms used for rasterization using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
+                Imagine each box in the canvas is a pixel and can be understood as a discrete coordinate. The algorithms graph by painting whole pixels. This means that perfect figures may not be drawn. 
+            </p>
+            <p class="header_description">
+                You can select the origin position of the system of coordinates. In <b>Upper-left</b> the coordinates increase to the right and to the bottom. In <b>Centered</b> the coordinates
+                increase to the right and to the top.
+            </p>
+            <p class="header_description">
+                You can choose the type of graph you would like to paint as well as the algorithm to use. Keep in mind that some algorithms may be better than others. You can also choose the amount of boxes 
+                or squares that a row can have in the canvas. A higher number of boxes means can work for better figures and a lower number of boxes can be used to see in detail. For a good performance
+                try to use numbers in the recomended range (10-100).</p>
+            <p class="header_description"> 
+                In algorithms that paint circles, the <span style="color:green;">green</span> pixels represent the pixels that are painted by the original algorithm and the rest are produced by reflection.
+            </p>
+           </div>
+        </section>
     <section class="options">
         <div class="options__origin">   
             <h2 class="options__title">Origin position</h2>
