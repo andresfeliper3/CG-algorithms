@@ -9,76 +9,51 @@
 </head>
 <body>
     <header>
-        <h1>Rasterization Algorithms</h1>
-        <p class="header_description">Computer graphics algorithms used for rasterization using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
-            Imagine each box in the canvas is a pixel and can be understood as a discrete coordinate. The algorithms graph by painting whole pixels. This means that perfect figures may not be drawn. 
-        </p>
-        <p class="header_description">
-            You can select the origin position of the system of coordinates. In <b>Upper-left</b> the coordinates increase to the right and to the bottom. In <b>Centered</b> the coordinates
-            increase to the right and to the top.
-        </p>
-        <p class="header_description">
-            You can choose the type of graph you would like to paint as well as the algorithm to use. Keep in mind that some algorithms may be better than others. You can also choose the amount of boxes 
-            or squares that a row can have in the canvas. A higher number of boxes means can work for better figures and a lower number of boxes can be used to see in detail. For a good performance
-            try to use numbers in the recomended range (10-100).</p>
-        <p class="header_description"> 
-            In algorithms that paint circles, the <span style="color:green;">green</span> pixels represent the pixels that are painted by the original algorithm and the rest are produced by reflection.
-        </p>
+        <h1>Computer Graphics</h1>
+    
     </header>
-    <section class="options">
-        <div class="options__origin">   
-            <h2 class="options__title">Origin position</h2>
-            <p class="options__description">Select where the <span style="color:red;">(0,0)</span> coordinates should be positioned</p>
-            <select name="options__origin-position" id="options__origin-position">
-                <option value="Centered">Centered</option>
-                <option value="Upper-left">Upper-left</option>
-                
-            </select>
+    <navbar id="navbar">
+        <div>   
+            <a class="navbar__link" href="rasterization.html">
+                <h2 class="options__title">Rasterization</h2>
+            </a>
         </div>
-        <div class="options__graph">
-            <h2 class="options__title">Type of graph</h2>
-            <p class="options__description">Select what you would like to graph</p>
-            <select name="options__graph-type" id="options__graph-type">    
-                <option value="Circle">Circle</option>
-                <option value="Line">Line</option>
-                
-            </select>
+        <div>
+            <a class="navbar__link" href="clipping.html">
+             <h2 class="navbar__title">Clipping</h2>
+            </a>
         </div>
     
-        <div class="options__algorithm">
-            <h2 class="options__title">Algorithm</h2>
-            <p class="options__description">Select the algorithm you want to use</p>
-            <select name="options__algorithm" id="options__algorithm">
-               
-            </select>
+        <div>
+            <a class="navbar__link" href="#">
+            <h2 class="navbar__title">Color</h2>
+            </a>
         </div>
-        <div class="options__canvas-dimensions">
-            <h2 class="options__title">Squares</h2>
-            <p class="options__description">Select the amounts of boxes in a row</p>
-            <input type="text" name="options__boxes" id="options__boxes" placeholder="10-100" value="30"/>
-    
+        <div>
+            <a class="navbar__link" href="#">
+            <h2 class="navbar__title">Transformations</h2>
+            </a>
         </div>
         
-    </section>
-    <section class="graph-section">
-        <div class="details-box">
-            <h1 class="details__title">Details</h1>
-            <p id="details-box__description"></p>
-            <div id="details"></div>
-            <div class="graph-section__button"> 
-                <button id="graph-button">Graph</button>
-            </div>
-        </div>
-        
-        <div class="canvas">
-            <h2 id="canvas__title">Rasterization</h2>
-            <canvas id="canvas" width="520" height="520">
-               
-            </canvas>
-              
-        </d>
-    </section>
+    </navbar>
     
-    <script type="module" src="./app.js"></script>
+    <section id="main_page">
+        
+        <p class="header_description">
+            Computer Graphics is an art of drawing pictures on computer screens with the help of programming. It involves computations, algorithms, creation, and manipulation of data.
+        </p>
+        
+        <p class="header_description">
+            There are different algorithms for each of the following subtopics of Computer Graphics. Some algorithms are better (accuracy and optimization) than others.
+            The result from using an algorithm with the indicated initial values is rendered in the canvas section.
+        </p>
+
+        <p class="header_description">
+            Select one of the options above to see the algorithms in action according to their area.
+        </p>
+    </section>
+  
+    
+   
 </body>
 </html>

@@ -15,6 +15,29 @@ h1, h2 {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin-top: 50px;
+}
+
+#main_page {
+    margin-top: 50px;
+    width: 70%;
+}
+
+a.navbar__link {
+    text-decoration: none;
+    color: black;
+}
+a.navbar__link:hover{
+    text-decoration: underline;
+}
+
 .header_description {
     font-family:Georgia, 'Times New Roman', Times, serif;
     text-align: justify;
