@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Color</title>
+</head>
+<body>
+    <header>
+        <h1>Color conversions</h1>
+        <p class="header_description">
+            Choose a color from the color picker or type it. Select the origin and target formats and make sure the selected origin format
+            matches the the color format you are entering.
+        </p>
+       
+    </header>
+    <section class="color__options">
+        <div>
+            <label for="favcolor">Select the color:</label>
+            <input type="color" id="favcolor" name="favcolor" value="#ff0000"><br><br>
+        </div>
+        <div>
+            <label for="typecolor">Or type it:</label>
+            <input type="text" id="typecolor" name="typecolor" ><br><br>
+        </div>
+        <div>
+            <label for="color-transformation">Choose a transformation:</label>
+            <select id="color-transformation" name="color-transformation">
+                <option selected disabled>From RGB</option>
+                <option value="rgbToHsv">RGB &rarr; HSV</option>
+                <option value="rgbToHsl">RGB &rarr; HSL</option>
+                <option value="rgbToCmy">RGB &rarr; CMY</option>
+                <option disabled>To RGB</option>
+                <option value="HsvToRgb">HSV &rarr; RGB</option>
+                <option value="HslToRgb">HSL &rarr; RGB</option>
+                <option value="CmyToRgb">CMY &rarr; RGB</option>
+            </select>
+        </div>
+        <div id="color__button">
+            <button id="graph-button">Convert</button>
+        </div>
+        <div id="color__results">
+            <h3>Result: </h3>
+            <p></p>
+        </div>
+    </section>
+    <script type="module" src="./app.js"></script>
+</body>
+</html> 
