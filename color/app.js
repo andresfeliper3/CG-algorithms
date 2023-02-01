@@ -6,6 +6,27 @@ const colorTransformation = document.getElementById('color-transformation');
 const btn = document.getElementById('graph-button');
 const result = document.getElementById('result-text');
 
+
+/*
+change event
+*/
+colorTransformation.addEventListener('change', () => {
+    const selectedTransformation = colorTransformation.options[colorTransformation.selectedIndex].value;
+    const options = {
+        "rgbToHsv": ["R", "G", "B"],
+        "rgbToHsl": ["R", "G", "B"],
+        "rgbToCmy": ["R", "G", "B"],
+        "hsvToRgb": ["H", "S", "V"],
+        "hslToRgb": ["H", "S", "L"],
+        "cmyToRgb": ["C", "M", "Y"],
+    }
+    typeColor1.placeholder = options[selectedTransformation][0];
+    typeColor2.placeholder = options[selectedTransformation][1];
+    typeColor3.placeholder = options[selectedTransformation][2];
+
+});
+
+
 /*
 CLICK EVENT
 */
@@ -15,7 +36,7 @@ btn.addEventListener('click', () => {
 });
 
 function transform(colorElems, transformation) {
-    console.log(transformation)
+    console.log(chooseColor.value)
     const options = {
         "rgbToHsv": rgbToHsv(colorElems[0], colorElems[1], colorElems[2]),
         "rgbToHsl": rgbToHsl(colorElems[0], colorElems[1], colorElems[2]),
@@ -25,12 +46,12 @@ function transform(colorElems, transformation) {
         "cmyToRgb": rgbToCmy(colorElems[0], colorElems[1], colorElems[2])
     }
     const result = options[transformation];
-    console.log("result", result)
     return resultFormat(result);
 }
 
 function resultFormat(resultList) {
-    return resultList.join(', ');
+    const roundedResultList = resultList.map(e => e.toFixed(2));
+    return roundedResultList.join(', ');
 }
 
 function rgbToHsv(R, G, B) {
