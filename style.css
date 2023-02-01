@@ -48,7 +48,7 @@ h1 {
 
 }
 
-#main_page {
+.main_page {
     width: 70%;
     display: flex;
     justify-content: center;
@@ -57,7 +57,7 @@ h1 {
     padding-top: 50px;
     padding-bottom: 50px;
 }
-#main_page > div {
+.main_page > div {
     width: 80%;
 }
 a.navbar__link {
@@ -185,6 +185,9 @@ select#options__algorithm{
     width: 50%;
 }
 
+.w-40 {
+    width: 40%;
+}
 .w-25 {
     width: 25%;
 }

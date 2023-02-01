@@ -8,8 +8,38 @@
     <title>Clipping algorithms</title>
 </head>
 <body>
-    <header>
-        <h1>Clipping algorithms</h1>
+    <header class="mainHeader">
+        <h1>Computer Graphics</h1>
+        
+    </header>
+    <navbar id="navbar">
+        <div>   
+            <a class="navbar__link" href="../index.html">
+                <h3 class="options__title">Home</h3>
+            </a>
+        </div>
+        <div>   
+            <a class="navbar__link" href="../rasterization.html">
+                <h3 class="options__title">Rasterization</h3>
+            </a>
+        </div>
+        <div>
+            <a class="navbar__link" href="clipping.html">
+             <h3 class="navbar__title">Clipping</h3>
+            </a>
+        </div>
+    
+        <div>
+            <a class="navbar__link" href="../color/color.html">
+            <h3 class="navbar__title">Color</h3>
+            </a>
+        </div>
+        
+        
+    </navbar>
+    <section class="main_page">
+       <div>
+        <h3>Clipping algorithms</h3>
         <p class="header_description">
             Computer graphics algorithms used for clipping using JavaScript and Canvas. No graphics libraries were used in this code, only algorithms.   
             The canvas represents the window (entire landscape of what is going to be shown) and the viewport (represents the screen of the device) is graphed according to the algorithm.
@@ -21,9 +51,10 @@
         <p class="header_description">
            The clipped segments that are inside the viewport are painted in <span style="color:red;">red</span> color. The segments that are rejected and not painted inside the viewport are in <b>black</b> color.  
         </p>
-    </header>
+       </div>
+    </section>
     <section class="options">
-        <div class="options__origin w-50">   
+        <div class="options__origin w-40">   
             <h2 class="options__title">Select clipping graph</h2>
             <p class="options__description">Select if you are going to clip a line (segment) or a polygon</p>
             <select name="options__clipping-graph" id="options__clipping-graph">
@@ -32,7 +63,7 @@
                 
             </select>
         </div>
-        <div class="options__origin w-50">   
+        <div class="options__origin w-40">   
             
             <h2 class="options__title">Select clipping algorithm</h2>
             <p class="options__description">Select if you are going to clip a line (segment) or a polygon</p>
