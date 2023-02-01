@@ -1,6 +1,7 @@
 const typeColor1 = document.getElementById('typeColor1');
 const typeColor2 = document.getElementById('typeColor2');
 const typeColor3 = document.getElementById('typeColor3');
+const typeColors = [typeColor1, typeColor2, typeColor3];
 const chooseColor = document.getElementById('chooseColor');
 const colorTransformation = document.getElementById('color-transformation');
 const btn = document.getElementById('graph-button');
@@ -26,18 +27,52 @@ colorTransformation.addEventListener('change', () => {
 
 });
 
+chooseColor.addEventListener('change', () => {
+    const color = chooseColor.value;
+    const r = parseInt(color.substr(1, 2), 16)
+    const g = parseInt(color.substr(3, 2), 16)
+    const b = parseInt(color.substr(5, 2), 16)
+    typeColor1.value = r;
+    typeColor2.value = g;
+    typeColor3.value = b;
+});
+
+typeColors.forEach(typeColor => {
+    typeColor.addEventListener('change', () => {
+        const selectedTransformation = colorTransformation.options[colorTransformation.selectedIndex].value;
+        if (isGoingFromRgb(selectedTransformation)) {
+            chooseColor.value = rgbToHex(typeColor1.value, typeColor2.value, typeColor3.value);
+        }
+        else if (isGoingToRgb(selectedTransformation)) {
+            const resultInRgb = transform([typeColor1.value, typeColor2.value, typeColor3.value], selectedTransformation);
+            console.log(rgbToHex(resultInRgb[0], resultInRgb[1], resultInRgb[2]));
+            chooseColor.value = rgbToHex(resultInRgb[0], resultInRgb[1], resultInRgb[2]);
+        }
+    });
+});
+
+function isGoingFromRgb(transformation) {
+    return transformation == "rgbToHsv" || transformation == "rgbToHsl" || transformation == "rgbToCmy";
+}
+
+function isGoingToRgb(transformation) {
+    return transformation == "hsvToRgb" || transformation == "hslToRgb" || transformation == "cmyToRgb";
+}
 
 /*
 CLICK EVENT
 */
 btn.addEventListener('click', () => {
     const selectedTransformation = colorTransformation.options[colorTransformation.selectedIndex].value;
-    result.innerHTML = transform([typeColor1.value, typeColor2.value, typeColor3.value], selectedTransformation);
+    result.innerHTML = transformWithFormat([typeColor1.value, typeColor2.value, typeColor3.value], selectedTransformation);
+
 });
 
+function transformWithFormat(colorElems, transformation) {
+    const result = transform(colorElems, transformation);
+    return resultFormat(result);
+}
 function transform(colorElems, transformation) {
-    console.log(chooseColor.value)
-    console.log("transformation", transformation)
     const options = {
         "rgbToHsl": () => rgbToHsl(colorElems[0], colorElems[1], colorElems[2]),
         "rgbToHsv": () => rgbToHsv(colorElems[0], colorElems[1], colorElems[2]),
@@ -47,7 +82,7 @@ function transform(colorElems, transformation) {
         "cmyToRgb": () => cmyToRgb(colorElems[0], colorElems[1], colorElems[2])
     }
     const result = options[transformation]();
-    return resultFormat(result);
+    return result;
 }
 
 function resultFormat(resultList) {
@@ -161,8 +196,6 @@ function hsv2rgb(H, S, V) {
     const R = (r + m) * 255;
     const G = (g + m) * 255;
     const B = (b + m) * 255;
-    console.log("r", r, "g", g, "b", b, "m", m);
-    console.log("show", R, G, B);
     return [R, G, B];
 }
 
@@ -182,4 +215,15 @@ function cmyToRgb(C, M, Y) {
     const g = Math.round((1 - M) * 255);
     const b = Math.round((1 - Y) * 255);
     return [r, g, b];
+}
+
+
+function componentToHex(c) {
+    c = parseInt(c);
+    const hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
