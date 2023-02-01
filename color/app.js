@@ -37,15 +37,16 @@ btn.addEventListener('click', () => {
 
 function transform(colorElems, transformation) {
     console.log(chooseColor.value)
+    console.log("transformation", transformation)
     const options = {
-        "rgbToHsv": rgbToHsv(colorElems[0], colorElems[1], colorElems[2]),
-        "rgbToHsl": rgbToHsl(colorElems[0], colorElems[1], colorElems[2]),
-        "rgbToCmy": rgbToCmy(colorElems[0], colorElems[1], colorElems[2]),
-        "hsvToRgb": hsv2rgb(colorElems[0], colorElems[1], colorElems[2]),
-        "hslToRgb": hsl2rgb(colorElems[0], colorElems[1], colorElems[2]),
-        "cmyToRgb": rgbToCmy(colorElems[0], colorElems[1], colorElems[2])
+        "rgbToHsl": () => rgbToHsl(colorElems[0], colorElems[1], colorElems[2]),
+        "rgbToHsv": () => rgbToHsv(colorElems[0], colorElems[1], colorElems[2]),
+        "rgbToCmy": () => rgbToCmy(colorElems[0], colorElems[1], colorElems[2]),
+        "hsvToRgb": () => hsv2rgb(colorElems[0], colorElems[1], colorElems[2]),
+        "hslToRgb": () => hsl2rgb(colorElems[0], colorElems[1], colorElems[2]),
+        "cmyToRgb": () => cmyToRgb(colorElems[0], colorElems[1], colorElems[2])
     }
-    const result = options[transformation];
+    const result = options[transformation]();
     return resultFormat(result);
 }
 
@@ -111,18 +112,58 @@ function rgbToCmy(R, G, B) {
     let g_prim = G / 255;
     let b_prim = B / 255;
 
-    let K = 1 - Math.max(r_prim, g_prim, b_prim);
-    let C = (1 - r_prim - K) / (1 - K);
-    let M = (1 - g_prim - K) / (1 - K);
-    let Y = (1 - b_prim - K) / (1 - K);
+    let C = 1 - r_prim;
+    let M = 1 - g_prim;
+    let Y = 1 - b_prim;
 
-    return [C * 100, M * 100, Y * 100];
+    return [C, M, Y];
 }
 
-function hsv2rgb(h, s, v) {
-    let f = (n, k = (n + h / 60) % 6) =>
-        v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
-    return [f(5) * 100, f(3) * 100, f(1) * 100];
+function hsv2rgb(H, S, V) {
+    const s = S / 100;
+    const v = V / 100;
+    const C = s * v;
+    const X = C * (1 - Math.abs(((H / 60) % 2) - 1));
+    const m = v - C;
+    let r;
+    let g;
+    let b;
+    if (H >= 0 && H < 60) {
+        r = C;
+        g = X;
+        b = 0;
+    }
+    else if (H >= 60 && H < 120) {
+        r = X;
+        g = C;
+        b = 0;
+    }
+    else if (H >= 120 && H < 180) {
+        r = 0;
+        g = C;
+        b = X;
+    }
+    else if (H >= 180 && H < 240) {
+        r = 0;
+        g = X;
+        b = C;
+    }
+    else if (H >= 240 && H < 300) {
+        r = X;
+        g = 0;
+        b = C;
+    }
+    else if (H >= 300 && H < 360) {
+        r = C;
+        g = 0;
+        b = X;
+    }
+    const R = (r + m) * 255;
+    const G = (g + m) * 255;
+    const B = (b + m) * 255;
+    console.log("r", r, "g", g, "b", b, "m", m);
+    console.log("show", R, G, B);
+    return [R, G, B];
 }
 
 function hsl2rgb(h, s, l) {
