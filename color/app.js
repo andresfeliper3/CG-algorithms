@@ -1,5 +1,37 @@
+const typeColor1 = document.getElementById('typeColor1');
+const typeColor2 = document.getElementById('typeColor2');
+const typeColor3 = document.getElementById('typeColor3');
+const chooseColor = document.getElementById('chooseColor');
+const colorTransformation = document.getElementById('color-transformation');
+const btn = document.getElementById('graph-button');
+const result = document.getElementById('result-text');
 
+/*
+CLICK EVENT
+*/
+btn.addEventListener('click', () => {
+    const selectedTransformation = colorTransformation.options[colorTransformation.selectedIndex].value;
+    result.innerHTML = transform([typeColor1.value, typeColor2.value, typeColor3.value], selectedTransformation);
+});
 
+function transform(colorElems, transformation) {
+    console.log(transformation)
+    const options = {
+        "rgbToHsv": rgbToHsv(colorElems[0], colorElems[1], colorElems[2]),
+        "rgbToHsl": rgbToHsl(colorElems[0], colorElems[1], colorElems[2]),
+        "rgbToCmy": rgbToCmy(colorElems[0], colorElems[1], colorElems[2]),
+        "hsvToRgb": hsv2rgb(colorElems[0], colorElems[1], colorElems[2]),
+        "hslToRgb": hsl2rgb(colorElems[0], colorElems[1], colorElems[2]),
+        "cmyToRgb": rgbToCmy(colorElems[0], colorElems[1], colorElems[2])
+    }
+    const result = options[transformation];
+    console.log("result", result)
+    return resultFormat(result);
+}
+
+function resultFormat(resultList) {
+    return resultList.join(', ');
+}
 
 function rgbToHsv(R, G, B) {
     let r_prim = R / 255;

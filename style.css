@@ -192,6 +192,13 @@ select#options__clipping-algorithm{
     justify-content: center;
     align-items: center;   
 }
+.color__elements {
+    display: flex;
+    flex-direction: row;
+}
+.color__element {
+    width: 30px;
+}
 
 #color__results {
     display: flex;

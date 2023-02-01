@@ -18,24 +18,31 @@
     </header>
     <section class="color__options">
         <div>
-            <label for="favcolor">Select the color:</label>
-            <input type="color" id="favcolor" name="favcolor" value="#ff0000"><br><br>
+            <label for="chooseColor">Select the color:</label>
+            <input type="color" id="chooseColor" name="chooseColor" value="#ff0000"><br><br>
         </div>
         <div>
-            <label for="typecolor">Or type it:</label>
-            <input type="text" id="typecolor" name="typecolor" ><br><br>
+            <label for="typeColor">Or type it:</label>
+            <div class="color__elements">
+                <input class="color__element"type="text" id="typeColor1" name="typeColor1" placeholder="R">
+                <input class="color__element"type="text" id="typeColor2" name="typeColor2" placeholder="G">
+                <input class="color__element"type="text" id="typeColor3" name="typeColor3" placeholder="B">
+            </div>
+            
+            
+            <br><br>
         </div>
         <div>
             <label for="color-transformation">Choose a transformation:</label>
             <select id="color-transformation" name="color-transformation">
-                <option selected disabled>From RGB</option>
+                <option  disabled>From RGB</option>
                 <option value="rgbToHsv">RGB &rarr; HSV</option>
                 <option value="rgbToHsl">RGB &rarr; HSL</option>
                 <option value="rgbToCmy">RGB &rarr; CMY</option>
                 <option disabled>To RGB</option>
-                <option value="HsvToRgb">HSV &rarr; RGB</option>
-                <option value="HslToRgb">HSL &rarr; RGB</option>
-                <option value="CmyToRgb">CMY &rarr; RGB</option>
+                <option value="hsvToRgb">HSV &rarr; RGB</option>
+                <option value="hslToRgb">HSL &rarr; RGB</option>
+                <option value="cmyToRgb">CMY &rarr; RGB</option>
             </select>
         </div>
         <div id="color__button">
@@ -43,7 +50,7 @@
         </div>
         <div id="color__results">
             <h3>Result: </h3>
-            <p></p>
+            <p id="result-text"></p>
         </div>
     </section>
     <script type="module" src="./app.js"></script>
