@@ -182,7 +182,7 @@ function useAlgorithm(graphType, algorithm, board) {
         }
     } else if (graphType == "Polygon") {
         const polygon = new Polygon(board);
-        if (algorithm == "sutherlandHodgman") {
+        if (algorithm == "sutherlandHodgman" || algorithm == "weilerAtherton") {
             //    # polígono sujeto
             // let subject_polygon = [[50, 150], [200, 50], [350, 150], [350, 300], [250, 300], [200, 250], [150, 350], [100, 250], [100, 200]]
             //polígono sujeto
@@ -197,6 +197,7 @@ function useAlgorithm(graphType, algorithm, board) {
             // #Polígono resultante
             polygon.sutherlandHodgman(subject_polygon, clip_polygon)
         }
+
     }
 }
 
