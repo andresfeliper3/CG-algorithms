@@ -178,10 +178,8 @@ function hsl2rgb(h, s, l) {
 
 
 function cmyToRgb(C, M, Y) {
-    let K = Math.min(C, M, Y);
-    let r = 255 * (1 - C) * (1 - K);
-    let g = 255 * (1 - M) * (1 - K);
-    let b = 255 * (1 - Y) * (1 - K);
-
+    const r = Math.round((1 - C) * 255);
+    const g = Math.round((1 - M) * 255);
+    const b = Math.round((1 - Y) * 255);
     return [r, g, b];
 }
